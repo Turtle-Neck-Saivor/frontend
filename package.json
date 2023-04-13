@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.2",
@@ -39,6 +40,7 @@
     "node-sass": "^8.0.0",
     "prettier": "^2.8.7",
     "react-router": "^6.10.0",
+    "react-router-dom": "^6.10.0",
     "react-webcam": "^7.0.1",
     "storybook": "^7.0.2",
     "typescript": "^4.9.3",
