@@ -54,3 +54,15 @@ yarn-error.log*
 # Ignore all local history of files
 .history
 .ionide
+
+### StorybookJs ###
+# gitignore template for the Storybook, UI guide for front apps
+# website: https://storybook.js.org/
+
+storybook-static/
+
+### Sass ###
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
