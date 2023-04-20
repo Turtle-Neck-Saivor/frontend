@@ -25,9 +25,11 @@ const HeaderLayout = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
 `;
 
 const Image = styled.img`
   display: flex;
   padding: 1rem;
+  margin-left: 1rem;
 `;
