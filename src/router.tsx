@@ -4,6 +4,9 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import AuthCheckedLayout from './layout/AuthCheckedLayout';
 import GeneralLayout from './layout/GeneralLayout';
+import CameraPage from './pages/CameraPage';
+import ReportPage from './pages/ReportPage';
+import SettingsPage from './pages/SettingsPage';
 
 const routerData: RouterBase[] = [
   {
@@ -19,6 +22,27 @@ const routerData: RouterBase[] = [
     label: '회원가입',
     element: <SignupPage />,
     withAuth: false,
+  },
+  {
+    id: 2,
+    path: '/camera',
+    label: 'Camera',
+    element: <CameraPage />,
+    withAuth: true,
+  },
+  {
+    id: 3,
+    path: '/report',
+    label: 'Report',
+    element: <ReportPage />,
+    withAuth: true,
+  },
+  {
+    id: 4,
+    path: '/settings',
+    label: 'Settings',
+    element: <SettingsPage />,
+    withAuth: true,
   },
 ];
 

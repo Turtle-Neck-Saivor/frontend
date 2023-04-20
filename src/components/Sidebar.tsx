@@ -29,14 +29,11 @@ const SidebarLayout = styled.div`
   width: 20vw;
   height: 100vh;
   background-color: #e9ecfa;
-  position: fixed;
-  top: 0;
-  left: 0;
   @media all and (max-width: 767px) {
     display: none;
   }
 `;
 
 const Wrapper = styled.div`
-  margin: 5rem 1.3rem;
+  margin: 1.5rem 1.5rem;
 `;

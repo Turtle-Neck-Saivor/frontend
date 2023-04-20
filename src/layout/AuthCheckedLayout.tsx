@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import styled from 'styled-components';
 
 /**
  *  사용자 인증이 필요한 페이지에게 보여지는 레이아웃
@@ -10,12 +11,24 @@ import Sidebar from '../components/Sidebar';
 
 const AuthCheckedLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="authchecked-layout">
+    <RootLayout>
       <Header />
-      <Sidebar />
-      <div className="authchecked-layout__body">{children}</div>
-    </div>
+      <Content>
+        <Sidebar />
+        <LayoutBody>{children}</LayoutBody>
+      </Content>
+    </RootLayout>
   );
 };
 
 export default AuthCheckedLayout;
+
+export const RootLayout = styled.div`
+  width: 100vw;
+`;
+
+const Content = styled.div`
+  display: flex;
+`;
+
+const LayoutBody = styled.div``;

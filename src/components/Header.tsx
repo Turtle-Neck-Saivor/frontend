@@ -22,14 +22,10 @@ const HeaderLayout = styled.div`
   width: 100vw;
   height: 4rem;
   border-bottom: 1px solid #c8cbd9;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
 `;
 
 const Image = styled.img`
   display: flex;
   padding: 1rem;
-  margin-left: 1rem;
+  margin-left: 1.5rem;
 `;
