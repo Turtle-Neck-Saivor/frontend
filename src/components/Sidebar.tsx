@@ -6,7 +6,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SidebarMenu from './SidebarMenu';
 import SidebarInfo from './SidebarInfo';
-import { useLocation } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -17,7 +16,7 @@ const Sidebar = () => {
         <SidebarMenu icon={InsertChartIcon} link="report" text="Report" />
         <SidebarInfo text="Others" />
         <SidebarMenu icon={SettingsIcon} link="settings" text="Settings" />
-        <SidebarMenu icon={LogoutIcon} link="logout" text="Logout" />
+        <SidebarMenu icon={LogoutIcon} text="Logout" />
       </Wrapper>
     </SidebarLayout>
   );

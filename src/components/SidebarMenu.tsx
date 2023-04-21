@@ -20,7 +20,7 @@ interface SelectProps {
 interface SidebarMenuProps {
   icon: SvgIconComponent;
   text: string;
-  link: string;
+  link?: string;
 }
 
 const SidebarMenu = ({ icon, text, link }: SidebarMenuProps) => {
