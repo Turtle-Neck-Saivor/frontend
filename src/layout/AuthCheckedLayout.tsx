@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import styled from 'styled-components';
+import Loading from '../components/Loading';
 
 /**
  *  사용자 인증이 필요한 페이지에게 보여지는 레이아웃
@@ -15,7 +16,9 @@ const AuthCheckedLayout = ({ children }: { children: React.ReactNode }) => {
       <Header />
       <Content>
         <Sidebar />
-        <LayoutBody>{children}</LayoutBody>
+        <Suspense fallback={<Loading />}>
+          <LayoutBody>{children}</LayoutBody>
+        </Suspense>
       </Content>
     </RootLayout>
   );
