@@ -1,31 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 import styled from 'styled-components';
+import Guide from './Guide';
+import Webcam from 'react-webcam';
+
+/**
+ *  camera 컴포넌트
+ */
 
 const Camera = () => {
+  const socket = io.connect('');
   const [stream, setStream] = useState<MediaStream>();
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<Webcam>(null);
 
-  const getUserCamera = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then((stream) => {
-        setStream(stream);
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      });
-  };
-
-  useEffect(() => {
-    getUserCamera();
-  }, []);
-
-  useEffect(() => {}, []);
   return (
     <VideoLayout>
-      <Video autoPlay ref={videoRef}></Video>
+      <Guide />
+      <VideoBox>
+        <Webcam
+          audio={false}
+          ref={videoRef}
+          style={{ width: '100%', borderRadius: '1.5rem', margin: '0' }}
+        ></Webcam>
+      </VideoBox>
     </VideoLayout>
   );
 };
@@ -39,10 +37,9 @@ const VideoLayout = styled.div`
   margin: 3rem 0 0 2rem;
 `;
 
-const Video = styled.video`
+const VideoBox = styled.div`
   width: 50vw;
   border-radius: 1.5rem;
-  box-shadow: 1px 1px 10px lightgrey;
   margin-left: 11rem;
   @media all and (min-width: 768px) and (max-width: 1160px) {
     width: 70vw;
