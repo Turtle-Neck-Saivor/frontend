@@ -7,6 +7,7 @@ import GeneralLayout from './layout/GeneralLayout';
 import CameraPage from './pages/CameraPage';
 import ReportPage from './pages/ReportPage';
 import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/LoginPage';
 
 const routerData: RouterBase[] = [
   {
@@ -43,6 +44,13 @@ const routerData: RouterBase[] = [
     label: 'Settings',
     element: <SettingsPage />,
     withAuth: true,
+  },
+  {
+    id: 5,
+    path: '/login',
+    label: 'Login',
+    element: <LoginPage />,
+    withAuth: false,
   },
 ];
 

@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom';
 import Division from '../components/Division';
 import OtherFormButton from '../components/user/OtherFormButton';
 
-const SignupPage = () => {
+const LoginPage = () => {
   return (
     <CenterLayout>
-      <InputTitle title="회원가입" />
+      <InputTitle title="로그인" />
       <Division />
       <LoginForm />
       <Link to="/signup">
-        <OtherFormButton title="login" />
+        <OtherFormButton title="Sign up" />
       </Link>
     </CenterLayout>
   );
 };
 
-export default SignupPage;
+export default LoginPage;
