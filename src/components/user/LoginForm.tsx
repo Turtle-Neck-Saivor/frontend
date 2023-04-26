@@ -4,20 +4,24 @@ import useForm from '../../hooks/useForm';
 import Input from './Input';
 import FormButton from './FormButton';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../api/user';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const { values, handleChange, handleSubmit } = useForm({
-    initialValues: { email: '', password: '', name: '' },
+    initialValues: { emailId: '', password: '' },
     onSubmit: async () => {
-      navigate('/');
+      const res = await login(values);
+      if (res) {
+        navigate('/');
+      }
     },
   });
   return (
     <Form onSubmit={handleSubmit} noValidate>
       <Input
         mb={3.5}
-        name="email"
+        name="emailId"
         label="Email Address"
         type="email"
         onChange={handleChange}

@@ -1,8 +1,9 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import styled from 'styled-components';
 import Loading from '../components/Loading';
+import { useNavigate } from 'react-router-dom';
 
 /**
  *  사용자 인증이 필요한 페이지에게 보여지는 레이아웃
@@ -11,6 +12,13 @@ import Loading from '../components/Loading';
  */
 
 const AuthCheckedLayout = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+  }, [children]);
+
   return (
     <RootLayout>
       <Header />

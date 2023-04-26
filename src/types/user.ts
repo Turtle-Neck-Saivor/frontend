@@ -1,5 +1,5 @@
 export interface FormProps {
-  name: string;
-  email?: string;
+  nickname?: string;
+  emailId?: string;
   password?: string;
 }
