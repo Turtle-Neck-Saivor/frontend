@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Holistic, POSE_CONNECTIONS } from '@mediapipe/holistic';
 import * as cam from '@mediapipe/camera_utils';
 import * as h from '@mediapipe/holistic';
@@ -7,6 +7,7 @@ import Webcam from 'react-webcam';
 
 interface MediapipeDataProps {
   poseLandmarks: h.NormalizedLandmarkList;
+  faceLandmarks: h.NormalizedLandmarkList;
 }
 
 const useHolistic = ({
@@ -31,11 +32,22 @@ const useHolistic = ({
     enableFaceGeometry: true,
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [mediapipeData, setMediapipeData] = useState<MediapipeDataProps[]>([]);
 
   const onResults: h.ResultsListener = (results) => {
     if (!canvasRef.current || !videoRef.current?.video || !isDetect) {
       return;
     }
+    const { poseLandmarks, faceLandmarks } = results;
+    const data = {
+      poseLandmarks,
+      faceLandmarks,
+    };
+    setMediapipeData((cur) => {
+      const temp = [...cur];
+      temp.push(data);
+      return temp;
+    });
 
     canvasRef.current.width = videoRef.current?.video.videoWidth;
     canvasRef.current.height = videoRef.current?.video.videoHeight;
@@ -76,6 +88,11 @@ const useHolistic = ({
       lineWidth: 1,
     });
   };
+  useEffect(() => {
+    if (mediapipeData.length === 10) {
+      console.log(mediapipeData);
+    }
+  }, [mediapipeData]);
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
@@ -108,6 +125,7 @@ const useHolistic = ({
       holistic.onResults(onResults);
     } else {
       holistic.onResults(() => undefined);
+      setMediapipeData([]);
     }
   }, [isDetect]);
 
