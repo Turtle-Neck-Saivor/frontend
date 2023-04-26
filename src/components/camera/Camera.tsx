@@ -1,32 +1,35 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import Guide from './Guide';
 import Webcam from 'react-webcam';
 import useHolistic from '../../hooks/useHolistic';
+import Loading from '../Loading';
 
 /**
  *  camera 컴포넌트
  */
 
-const Camera = () => {
+const Camera = ({ isDetect }: { isDetect: boolean }) => {
   const videoRef = useRef<Webcam>(null);
-  const { canvasRef } = useHolistic({
+
+  const { canvasRef, isLoading } = useHolistic({
     videoRef: videoRef,
     isDetect: true,
   });
 
   return (
-    <VideoLayout>
-      <Guide />
-      <VideoBox>
-        <Canvas ref={canvasRef} />
-        <Webcam
-          audio={false}
-          ref={videoRef}
-          style={{ width: '100%', borderRadius: '1.5rem', margin: '0' }}
-        ></Webcam>
-      </VideoBox>
-    </VideoLayout>
+    <>
+      {isLoading && <Loading />}
+      <VideoLayout>
+        <VideoBox>
+          {isDetect ? <Canvas ref={canvasRef} /> : <></>}
+          <Webcam
+            audio={false}
+            ref={videoRef}
+            style={{ width: '100%', borderRadius: '1.5rem', margin: '0' }}
+          ></Webcam>
+        </VideoBox>
+      </VideoLayout>
+    </>
   );
 };
 
@@ -42,7 +45,7 @@ const VideoLayout = styled.div`
 const VideoBox = styled.div`
   width: 50vw;
   border-radius: 1.5rem;
-  margin-left: 11rem;
+  margin-left: 9rem;
   @media all and (min-width: 768px) and (max-width: 1160px) {
     width: 70vw;
     margin: 0;

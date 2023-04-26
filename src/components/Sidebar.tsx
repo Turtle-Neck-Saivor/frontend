@@ -25,7 +25,7 @@ const Sidebar = () => {
 export default Sidebar;
 
 const SidebarLayout = styled.div`
-  width: 20vw;
+  width: 23vw;
   height: 100vh;
   background-color: #e9ecfa;
   @media all and (max-width: 767px) {

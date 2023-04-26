@@ -33,6 +33,7 @@ const useHolistic = ({
   });
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mediapipeData, setMediapipeData] = useState<MediapipeDataProps[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const onResults: h.ResultsListener = (results) => {
     if (!canvasRef.current || !videoRef.current?.video || !isDetect) {
@@ -88,11 +89,6 @@ const useHolistic = ({
       lineWidth: 1,
     });
   };
-  useEffect(() => {
-    if (mediapipeData.length === 10) {
-      console.log(mediapipeData);
-    }
-  }, [mediapipeData]);
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
@@ -109,6 +105,7 @@ const useHolistic = ({
             return;
           }
           await holistic.send({ image: videoRef.current?.video });
+          setIsLoading(false);
         },
       });
       camera.start();
@@ -131,6 +128,7 @@ const useHolistic = ({
 
   return {
     canvasRef,
+    isLoading,
   };
 };
 
