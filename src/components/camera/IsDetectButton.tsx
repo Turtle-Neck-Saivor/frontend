@@ -39,7 +39,7 @@ const IsDetectButton = (props: DetectProps) => {
           <StartTooltip
             title={
               <React.Fragment>
-                <img src={guide} />
+                <img src={guide} width={300} />
                 <p
                   style={{
                     textAlign: 'center',
