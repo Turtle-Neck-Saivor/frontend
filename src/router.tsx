@@ -50,7 +50,7 @@ const routerData: RouterBase[] = [
     path: '/login',
     label: 'Login',
     element: <LoginPage />,
-    withAuth: true,
+    withAuth: false,
   },
 ];
 

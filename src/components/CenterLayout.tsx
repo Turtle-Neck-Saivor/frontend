@@ -11,12 +11,11 @@ type WrapperProps = {
 
 const CenterLayout = ({ children }: WrapperProps) => {
   return (
-    <Container maxWidth="xs">
+    <Container>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          width: '75vw',
           minHeight: '80vh',
           flexDirection: 'column',
           alginItems: 'center',
