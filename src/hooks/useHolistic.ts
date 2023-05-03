@@ -8,6 +8,18 @@ import Webcam from 'react-webcam';
 interface MediapipeDataProps {
   poseLandmarks: h.NormalizedLandmarkList;
   faceLandmarks: h.NormalizedLandmarkList;
+  rightHandLandmarks: h.NormalizedLandmarkList;
+}
+
+const getDistance = ( ax: number, ay: number, zx: number, zy: number ) => {
+
+  var dis_x = ax - zx;
+
+  var dix_y = ay - zy;
+
+  let dist = Math.sqrt( Math.abs( dis_x * dis_x ) + Math.abs( dix_y * dix_y ) );
+
+  return dist;
 }
 
 const useHolistic = ({
@@ -39,10 +51,11 @@ const useHolistic = ({
     if (!canvasRef.current || !videoRef.current?.video || !isDetect) {
       return;
     }
-    const { poseLandmarks, faceLandmarks } = results;
+    const { poseLandmarks, faceLandmarks, rightHandLandmarks } = results;
     const data = {
       poseLandmarks,
       faceLandmarks,
+      rightHandLandmarks,
     };
     setMediapipeData((cur) => {
       const temp = [...cur];
@@ -84,11 +97,45 @@ const useHolistic = ({
       color: '#FF0000',
       lineWidth: 2,
     });
+    drawConnectors(canvasCtx, results.leftHandLandmarks, h.HAND_CONNECTIONS, {
+      color: '#00FF00',
+      lineWidth: 3,
+    });
+
     drawConnectors(canvasCtx, results.faceLandmarks, h.FACEMESH_TESSELATION, {
       color: '#C0C0C070',
       lineWidth: 1,
     });
+
+    let value = results.leftHandLandmarks
+    let ax = value['4'].x;
+    let ay = value['4'].y;
+    let zx = value['20'].x;
+    let zy = value['20'].y;
+    let dist_1 = getDistance(ax, ay, zx, zy)
+
+    let value_2 = results.faceLandmarks
+    let bx = value_2['132'].x;
+    let by = value_2['132'].y;
+    let wx = value_2['361'].x;
+    let wy = value_2['361'].y;
+    let dist_2 = getDistance(bx, by, wx, wy);
+    let real_dist = (18.5) * (dist_2 / dist_1);
+    console.log(real_dist);
+    // if(value < -1){
+    //   console.log(`${value} < -1`)
+    // } else if (value < 0 && value> -1){
+    //   console.log(`-1 < ${value} < 0`)
+    // } else if (value == 0 ){
+    //   console.log(`${value} = 0`)
+    // } else if (value < 1 && value > 0){
+    //   console.log(`0 < ${value} < 1`)
+    // }else if (value > 1){
+    //   console.log(`1 < ${value}`)
+    // }
+
   };
+
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
