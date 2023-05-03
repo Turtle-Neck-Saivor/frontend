@@ -5,7 +5,7 @@
  * @returns
 */
 
-export const checkTurtleNeck = (y: number, k: number) => {
+export const checkTurtleNeck = (y: number, k: number): string => {
     const criticalPoint1 = Math.sqrt((k**2) - 6.25);
     const criticalPoint2 = Math.sqrt((k**2) - 25);
     if(0 < y && y < criticalPoint1){
