@@ -12,6 +12,7 @@ const Camera = ({ isDetect }: { isDetect: boolean }) => {
   const videoRef = useRef<Webcam>(null);
 
   const { canvasRef, isLoading } = useHolistic({
+    eyebrowWidth: 8,
     videoRef: videoRef,
     isDetect: true,
   });
