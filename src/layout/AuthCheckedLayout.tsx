@@ -13,11 +13,11 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthCheckedLayout = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem('token')) {
-      navigate('/login');
-    }
-  }, [children]);
+  // useEffect(() => {
+  //   if (!localStorage.getItem('token')) {
+  //     navigate('/login');
+  //   }
+  // }, [children]);
 
   return (
     <RootLayout>
