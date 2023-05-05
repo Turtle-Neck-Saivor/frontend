@@ -19,7 +19,7 @@ const useHolistic = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [resultTurtleNeck, setResultTurtleNeck] = useState('RED');
+  const [resultTurtleNeck, setResultTurtleNeck] = useState('');
   const { fireNotificationWithTimeout } = useNotification();
 
   const onResults: h.ResultsListener = (results) => {
@@ -29,7 +29,10 @@ const useHolistic = ({
 
     canvasRef.current.width = videoRef.current?.video.videoWidth;
     canvasRef.current.height = videoRef.current?.video.videoHeight;
-
+    let width = results.image.width;
+    let height = results.image.height;
+    let irisLeftMinX = -1,
+      irisLeftMaxX = -1;
     const canvasElement = canvasRef.current;
     const canvasCtx = canvasElement.getContext('2d');
 
@@ -51,8 +54,19 @@ const useHolistic = ({
       canvasElement.width,
       canvasElement.height,
     );
-    canvasCtx.globalCompositeOperation = 'source-over';
 
+    if (results.faceLandmarks) {
+      for (const point of h.FACEMESH_LEFT_IRIS) {
+        let point0 = results.faceLandmarks[point[0]];
+        if (irisLeftMinX == -1 || point0.x * width < irisLeftMinX) {
+          irisLeftMinX = point0.x * width;
+        }
+        if (irisLeftMaxX == -1 || point0.x * width > irisLeftMaxX) {
+          irisLeftMaxX = point0.x * width;
+        }
+      }
+    }
+    canvasCtx.globalCompositeOperation = 'source-over';
     drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
       color: '#00FF00',
       lineWidth: 3,
@@ -61,36 +75,53 @@ const useHolistic = ({
       color: '#FF0000',
       lineWidth: 2,
     });
-
+    drawConnectors(canvasCtx, results.faceLandmarks, h.FACEMESH_LEFT_IRIS, {
+      color: '#30FF30',
+      lineWidth: 1,
+    });
     drawConnectors(canvasCtx, results.faceLandmarks, h.FACEMESH_TESSELATION, {
       color: '#C0C0C070',
       lineWidth: 1,
     });
+    let dx = irisLeftMaxX - irisLeftMinX;
+    let dX = 11.7;
+    // Logitech HD Pro C922 Norm focal
+    let normalizedFocaleX = 1;
+
+    let fx = Math.min(width, height) * normalizedFocaleX;
+    let dZ = (fx * (dX / dx)) / 10.0;
+    let distanceFromWebcam = dZ.toFixed(2);
+
+    canvasCtx.fillStyle = 'red';
+    canvasCtx.font = '30px Arial';
+    canvasCtx.fillText(distanceFromWebcam + ' cm', width / 2, 50);
 
     let faceResult = results.faceLandmarks;
     let poseResult = results.poseLandmarks;
 
-    let learlob = faceResult['132'];
-    let lshoulder = poseResult['11'];
-    let leyebrow = poseResult['3'];
-    let reyebrow = poseResult['6'];
+    if (faceResult) {
+      let learlob = faceResult['132'];
+      let lshoulder = poseResult['11'];
+      let leyebrow = poseResult['3'];
+      let reyebrow = poseResult['6'];
 
-    let resulttutrlte = algorithm({
-      standradInput: eyebrowWidth,
-      leyebrow: leyebrow,
-      reyebrow: reyebrow,
-      lshoulder: lshoulder,
-      learlob: learlob,
-    });
+      let resulttutrlte = algorithm({
+        standradInput: eyebrowWidth,
+        leyebrow: leyebrow,
+        reyebrow: reyebrow,
+        lshoulder: lshoulder,
+        learlob: learlob,
+      });
 
-    setResultTurtleNeck(resulttutrlte.result);
+      setResultTurtleNeck(resulttutrlte.result);
+    }
   };
 
-  useEffect(() => {
-    fireNotificationWithTimeout('🔔 거북목 경고 알림', {
-      body: '자세를 바르게 해주세요',
-    });
-  }, [resultTurtleNeck]);
+  // useEffect(() => {
+  //   fireNotificationWithTimeout('🔔 거북목 경고 알림', {
+  //     body: '자세를 바르게 해주세요',
+  //   });
+  // }, [resultTurtleNeck]);
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
@@ -128,6 +159,7 @@ const useHolistic = ({
   }, [isDetect]);
 
   return {
+    resultTurtleNeck,
     canvasRef,
     isLoading,
   };
@@ -145,7 +177,8 @@ holistic.setOptions({
   smoothSegmentation: true,
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5,
-  enableFaceGeometry: true,
+  enableFaceGeometry: false,
+  refineFaceLandmarks: true,
 });
 
 export default useHolistic;

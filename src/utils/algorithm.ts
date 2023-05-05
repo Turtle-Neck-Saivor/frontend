@@ -41,7 +41,6 @@ export const algorithm = ({
   let k = convertDimension(_k, cmDistance, mediapipeDistance);
   let y = convertDimension(_y, cmDistance, mediapipeDistance);
   // 결과 반환
-  console.log(y, k);
   let result = checkTurtleNeck(y, k);
 
   return {
