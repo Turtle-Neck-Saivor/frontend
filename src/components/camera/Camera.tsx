@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Webcam from 'react-webcam';
 import useHolistic from '../../hooks/useHolistic';
 import Loading from '../Loading';
+import StateButton from './StateButton';
 
 /**
  *  camera 컴포넌트
@@ -11,7 +12,7 @@ import Loading from '../Loading';
 const Camera = ({ isDetect }: { isDetect: boolean }) => {
   const videoRef = useRef<Webcam>(null);
 
-  const { canvasRef, isLoading } = useHolistic({
+  const { resultTurtleNeck, canvasRef, isLoading } = useHolistic({
     eyebrowWidth: 8,
     videoRef: videoRef,
     isDetect: true,
@@ -21,6 +22,7 @@ const Camera = ({ isDetect }: { isDetect: boolean }) => {
     <>
       {isLoading && <Loading />}
       <VideoLayout>
+        <StateButton resultTurtleNeck={resultTurtleNeck} />
         <VideoBox>
           {isDetect ? <Canvas ref={canvasRef} /> : <></>}
           <Webcam

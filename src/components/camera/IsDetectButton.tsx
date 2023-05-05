@@ -66,7 +66,7 @@ const IsDetectButton = (props: DetectProps) => {
 
 export default IsDetectButton;
 
-const ButtonLayout = styled.div`
+export const ButtonLayout = styled.div`
   position: relative;
   z-index: 30;
   cursor: pointer;
@@ -76,7 +76,7 @@ const IconLayout = styled(ButtonLayout)<{ hover: boolean }>`
   ${(props) => (props.hover ? 'red' : 'gray')};
 `;
 
-const Button = styled.div`
+export const Button = styled.div`
   position: absolute;
   top: -3rem;
   right: -1rem;
