@@ -29,7 +29,7 @@ const routerData: RouterBase[] = [
     path: '/camera',
     label: 'Camera',
     element: <CameraPage />,
-    withAuth: true,
+    withAuth: false,
   },
   {
     id: 3,
