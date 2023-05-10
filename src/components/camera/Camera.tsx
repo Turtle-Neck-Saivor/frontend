@@ -46,7 +46,6 @@ const VideoLayout = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin: 3rem 0 0 2rem;
 `;
 
 const VideoBox = styled.div`

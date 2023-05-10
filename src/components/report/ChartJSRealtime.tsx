@@ -23,7 +23,7 @@ const chartColors = {
 const data = {
   datasets: [
     {
-      label: 'Dataset 1 (linear interpolation)',
+      label: 'Result Timeline',
       backgroundColor: red,
       borderColor: chartColors.red,
       fill: false,
@@ -100,4 +100,6 @@ export default ChartJSRealtime;
 
 const ChartLayout = styled.div`
   width: 60vw;
+  display: flex;
+  margin: 2rem 0;
 `;
