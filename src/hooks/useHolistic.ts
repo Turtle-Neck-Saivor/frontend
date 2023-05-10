@@ -5,21 +5,26 @@ import * as h from '@mediapipe/holistic';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import Webcam from 'react-webcam';
 import { algorithm } from '../utils/algorithm';
-import { MediapipeDataProps } from '../types/mediapipe';
+import { useDispatch, useSelector } from 'react-redux';
 import useNotification from './useNotification';
+import { add } from '../stores/resultSlice';
+import { RootState } from '../stores';
 
 const useHolistic = ({
   eyebrowWidth,
   videoRef,
-  isDetect,
 }: {
   eyebrowWidth: number;
   videoRef: React.RefObject<Webcam>;
-  isDetect: boolean;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [resultTurtleNeck, setResultTurtleNeck] = useState('');
+  const dispach = useDispatch();
+  const isDetect = useSelector((state: RootState) => {
+    return state.camera.isDetect;
+  });
+
   const { fireNotificationWithTimeout } = useNotification();
 
   const onResults: h.ResultsListener = (results) => {
@@ -114,6 +119,9 @@ const useHolistic = ({
       });
 
       setResultTurtleNeck(resulttutrlte.result);
+      if (isDetect) {
+        dispach(add(resulttutrlte.y));
+      }
     }
   };
 
@@ -175,8 +183,8 @@ holistic.setOptions({
   smoothLandmarks: true,
   enableSegmentation: true,
   smoothSegmentation: true,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5,
+  minDetectionConfidence: 0.7,
+  minTrackingConfidence: 0.7,
   enableFaceGeometry: false,
   refineFaceLandmarks: true,
 });

@@ -32,18 +32,20 @@ export const algorithm = ({
   );
 
   // TODO: 어깨선과 귓볼의 수직 거리 초기 기준값 (현재 임의값)
-  let _k = getVerticalDistance(0.4849410355091095, 0.7636772990226746);
+  let _k = getVerticalDistance(0.4849410355091095, 0.7636772990226746); // 80cm
 
   // 사용자가 의식하지 않을 때 어깨선과 귓볼의 수직 거리 (실수)
   let _y = getVerticalDistance(learlob.y, lshoulder.y);
 
   // cm 단위로 변환
-  let k = convertDimension(_k, cmDistance, mediapipeDistance);
+  const k = convertDimension(_k, cmDistance, mediapipeDistance); // 80cm
   let y = convertDimension(_y, cmDistance, mediapipeDistance);
+
   // 결과 반환
-  let result = checkTurtleNeck(y, k);
+  let result = checkTurtleNeck(y, 15);
 
   return {
     result,
+    y,
   };
 };

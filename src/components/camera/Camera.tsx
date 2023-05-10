@@ -4,18 +4,22 @@ import Webcam from 'react-webcam';
 import useHolistic from '../../hooks/useHolistic';
 import Loading from '../Loading';
 import StateButton from './StateButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 
 /**
  *  camera 컴포넌트
  */
 
-const Camera = ({ isDetect }: { isDetect: boolean }) => {
+const Camera = () => {
   const videoRef = useRef<Webcam>(null);
+  const isDetect = useSelector((state: RootState) => {
+    return state.camera.isDetect;
+  });
 
   const { resultTurtleNeck, canvasRef, isLoading } = useHolistic({
     eyebrowWidth: 8,
     videoRef: videoRef,
-    isDetect: true,
   });
 
   return (
@@ -42,11 +46,11 @@ const VideoLayout = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin: 3rem 0 0 2rem;
+  margin-top: 3rem;
 `;
 
 const VideoBox = styled.div`
-  width: 50vw;
+  width: 40vw;
   border-radius: 1.5rem;
   margin-left: 9rem;
   @media all and (min-width: 768px) and (max-width: 1160px) {
@@ -63,7 +67,7 @@ const Canvas = styled.canvas`
   position: absolute;
   border-radius: 1.5rem;
   z-index: 9;
-  width: 50vw;
+  width: 40vw;
   @media all and (min-width: 768px) and (max-width: 1160px) {
     width: 70vw;
     margin: 0;

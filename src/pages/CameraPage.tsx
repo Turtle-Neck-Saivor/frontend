@@ -2,17 +2,26 @@ import React, { useEffect, useState } from 'react';
 import PageTitle from '../components/PageTitle';
 import Camera from '../components/camera/Camera';
 import IsDetectButton from '../components/camera/IsDetectButton';
+import ChartJSRealtime from '../components/report/ChartJSRealtime';
+import styled from 'styled-components';
 
 const CameraPage = () => {
-  const [isDetect, setIsDetect] = useState(false);
-
   return (
     <>
       <PageTitle title="Camera" />
-      <IsDetectButton isDetect={isDetect} setIsDetect={setIsDetect} />
-      <Camera isDetect={isDetect} />
+      <IsDetectButton />
+      <Camera />
+      {localStorage.getItem('criticalPoint') ? (
+        <ChartBox>
+          <ChartJSRealtime />
+        </ChartBox>
+      ) : null}
     </>
   );
 };
 
 export default CameraPage;
+
+const ChartBox = styled.div`
+  margin-left: 4rem;
+`;

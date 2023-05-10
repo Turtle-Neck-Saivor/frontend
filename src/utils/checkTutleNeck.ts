@@ -6,13 +6,23 @@
  */
 
 export const checkTurtleNeck = (y: number, k: number): string => {
-  const criticalPoint1 = Math.sqrt(k ** 2 - 6.25); //red
-  const criticalPoint2 = Math.sqrt(k ** 2 - 25); //yellow
-  if (0 < y && y < criticalPoint1) {
+  const STANDARD_DEGREE = 50;
+  const radian = (STANDARD_DEGREE * Math.PI) / 180;
+  const m = 9;
+  const n = 1;
+
+  const criticalPoint2 = Math.sin(radian) * k; // yellow
+  const criticalPoint1 = (k * m + criticalPoint2 * n) / (m + n); // red
+  localStorage.setItem(
+    'criticalPoint',
+    JSON.stringify({ red: criticalPoint1, yellow: criticalPoint2 }),
+  );
+
+  if (0 < y && y < criticalPoint2) {
     return 'RED';
-  } else if (criticalPoint1 < y && y < criticalPoint2) {
+  } else if (criticalPoint2 < y && y < criticalPoint1) {
     return 'YELLOW';
-  } else if (criticalPoint2 < y && y < k) {
+  } else if (criticalPoint2 < y) {
     return 'GREEN';
   } else {
     return 'ERROR';

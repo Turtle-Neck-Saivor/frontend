@@ -9,17 +9,20 @@ const StateButton = ({ resultTurtleNeck }: { resultTurtleNeck: string }) => {
   useEffect(() => {
     switch (resultTurtleNeck) {
       case 'GREEN':
-      case 'YELLOW':
         setStatus('정상');
         setColor('green');
         break;
-      case 'RED':
+      case 'YELLOW':
         setStatus('주의');
-        setColor('orange');
+        setColor('yellow');
+        break;
+      case 'RED':
+        setStatus('경고');
+        setColor('red');
         break;
       case 'ERROR':
-        setStatus('심각');
-        setColor('red');
+        setStatus('잘못된자세');
+        setColor('grey');
         break;
     }
   }, [resultTurtleNeck]);

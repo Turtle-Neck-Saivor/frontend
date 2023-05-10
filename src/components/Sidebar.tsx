@@ -25,8 +25,9 @@ const Sidebar = () => {
 export default Sidebar;
 
 const SidebarLayout = styled.div`
+  align-items: flex-start;
   width: 23vw;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #e9ecfa;
   @media all and (max-width: 767px) {
     display: none;
