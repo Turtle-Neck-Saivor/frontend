@@ -60,7 +60,7 @@ const ChartJSRealtime = () => {
                   mode: 'horizontal',
                   scaleID: 'y-axis-0',
                   value: JSON.parse(localStorage.getItem('criticalPoint')).red,
-                  borderColor: 'red',
+                  borderColor: 'orange',
                   borderWidth: 3,
                 },
                 {
