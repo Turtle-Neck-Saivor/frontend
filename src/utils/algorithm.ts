@@ -46,5 +46,6 @@ export const algorithm = ({
 
   return {
     result,
+    y,
   };
 };

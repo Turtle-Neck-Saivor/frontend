@@ -18,9 +18,12 @@
     "@mediapipe/holistic": "^0.5.1635989137",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@types/d3": "^7.4.0",
     "@types/simple-peer": "^9.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.9"

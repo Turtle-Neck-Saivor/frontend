@@ -4,19 +4,22 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import StartTooltip from './StartTooltip';
 import guide from '../../assets/icon_guide.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../stores';
+import { set } from '../../stores/cameraSlice';
 
-interface DetectProps {
-  isDetect: boolean;
-  setIsDetect: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const IsDetectButton = (props: DetectProps) => {
+const IsDetectButton = () => {
   const [isHovering, setIsHovering] = useState(false);
-  if (props.isDetect) {
+  const dispach = useDispatch();
+  const isDetect = useSelector((state: RootState) => {
+    return state.camera.isDetect;
+  });
+
+  if (isDetect) {
     return (
       <ButtonLayout
         onClick={() => {
-          props.setIsDetect(false);
+          dispach(set(false));
         }}
       >
         <Button>
@@ -33,7 +36,7 @@ const IsDetectButton = (props: DetectProps) => {
           onMouseOver={() => setIsHovering(true)}
           onMouseOut={() => setIsHovering(false)}
           onClick={() => {
-            props.setIsDetect(true);
+            dispach(set(true));
           }}
         >
           <StartTooltip
