@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import streamingPlugin from 'chartjs-plugin-streaming';
@@ -38,96 +38,99 @@ const ChartJSRealtime = () => {
   const resultData = useSelector((state: RootState) => {
     return state.result.resultData;
   });
+  const [redPoint, setRedPoint] = useState(0);
+  const [yellowPoint, setYellowPoint] = useState(0);
 
-  const [redPoint, setRedPoint] = useState(
-    JSON.parse(localStorage.getItem('criticalPoint')).red,
-  );
-  const [yellowPoint, setYellowPoint] = useState(
-    JSON.parse(localStorage.getItem('criticalPoint')).yellow,
-  );
-  const options = {
-    annotation: {
-      drawTime: 'afterDatasetsDraw', // (default)
-      events: ['click'],
-      dblClickSpeed: 350, // ms (default)
-      annotations: [
-        {
-          drawTime: 'afterDraw',
-          id: 'a-line-1',
-          type: 'line',
-          mode: 'horizontal',
-          scaleID: 'y-axis-0',
-          value: redPoint,
-          borderColor: 'red',
-          borderWidth: 3,
-        },
-        {
-          drawTime: 'afterDraw',
-          id: 'a-line-2',
-          type: 'line',
-          mode: 'horizontal',
-          scaleID: 'y-axis-0',
-          value: yellowPoint,
-          borderColor: 'red',
-          borderWidth: 3,
-        },
-      ],
-    },
-    elements: {
-      line: {
-        tension: 0.5,
-      },
-    },
-    scales: {
-      xAxes: [
-        {
-          type: 'realtime',
-          distribution: 'linear',
-          realtime: {
-            onRefresh: function (chart) {
-              chart.data.datasets[0].data.push({
-                x: moment(),
-                y: resultData,
-              });
+  const options = {};
+  if (localStorage.getItem('criticalPoint')) {
+    return (
+      <ChartLayout>
+        <Line
+          data={data}
+          options={{
+            annotation: {
+              drawTime: 'afterDatasetsDraw', // (default)
+              events: ['click'],
+              dblClickSpeed: 350, // ms (default)
+              annotations: [
+                {
+                  drawTime: 'afterDraw',
+                  id: 'a-line-1',
+                  type: 'line',
+                  mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: JSON.parse(localStorage.getItem('criticalPoint')).red,
+                  borderColor: 'red',
+                  borderWidth: 3,
+                },
+                {
+                  drawTime: 'afterDraw',
+                  id: 'a-line-2',
+                  type: 'line',
+                  mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: JSON.parse(localStorage.getItem('criticalPoint'))
+                    .yellow,
+                  borderColor: 'red',
+                  borderWidth: 3,
+                },
+              ],
             },
-            delay: 3000,
-            time: {
-              displayFormat: 'h:mm',
+            elements: {
+              line: {
+                tension: 0.5,
+              },
             },
-          },
-          ticks: {
-            displayFormats: 1,
-            maxRotation: 0,
-            minRotation: 0,
-            stepSize: 1,
-            maxTicksLimit: 30,
-            minUnit: 'second',
-            source: 'auto',
-            autoSkip: true,
-            callback: function (value) {
-              return moment(value, 'HH:mm:ss').format('mm:ss');
+            scales: {
+              xAxes: [
+                {
+                  type: 'realtime',
+                  distribution: 'linear',
+                  realtime: {
+                    onRefresh: function (chart) {
+                      chart.data.datasets[0].data.push({
+                        x: moment(),
+                        y: resultData,
+                      });
+                    },
+                    delay: 3000,
+                    time: {
+                      displayFormat: 'h:mm',
+                    },
+                  },
+                  ticks: {
+                    displayFormats: 1,
+                    maxRotation: 0,
+                    minRotation: 0,
+                    stepSize: 1,
+                    maxTicksLimit: 30,
+                    minUnit: 'second',
+                    source: 'auto',
+                    autoSkip: true,
+                    callback: function (value) {
+                      return moment(value, 'HH:mm:ss').format('mm:ss');
+                    },
+                  },
+                },
+              ],
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                    min: 0,
+                    max: 20,
+                    stepSize: 5,
+                  },
+                },
+              ],
             },
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-            min: 0,
-            max: 20,
-            stepSize: 5,
-          },
-        },
-      ],
-    },
-  };
-
-  return (
-    <ChartLayout>
-      <Line data={data} options={options} />
-    </ChartLayout>
-  );
+          }}
+        />
+      </ChartLayout>
+    );
+  } else {
+    return <ChartLayout></ChartLayout>;
+  }
 };
 
 export default ChartJSRealtime;

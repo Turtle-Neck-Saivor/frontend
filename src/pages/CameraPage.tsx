@@ -11,9 +11,11 @@ const CameraPage = () => {
       <PageTitle title="Camera" />
       <IsDetectButton />
       <Camera />
-      <ChartBox>
-        <ChartJSRealtime />
-      </ChartBox>
+      {localStorage.getItem('criticalPoint') ? (
+        <ChartBox>
+          <ChartJSRealtime />
+        </ChartBox>
+      ) : null}
     </>
   );
 };
