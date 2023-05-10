@@ -5,14 +5,18 @@
  * @returns
  */
 
-const STANDARD_DEGREE = 50;
-const radian = (STANDARD_DEGREE * Math.PI) / 180;
-const m = 9;
-const n = 1;
-
 export const checkTurtleNeck = (y: number, k: number): string => {
+  const STANDARD_DEGREE = 50;
+  const radian = (STANDARD_DEGREE * Math.PI) / 180;
+  const m = 9;
+  const n = 1;
+
   const criticalPoint2 = Math.sin(radian) * k; // yellow
   const criticalPoint1 = (k * m + criticalPoint2 * n) / (m + n); // red
+  localStorage.setItem(
+    'criticalPoint',
+    JSON.stringify({ red: criticalPoint1, yellow: criticalPoint2 }),
+  );
 
   if (0 < y && y < criticalPoint2) {
     return 'RED';

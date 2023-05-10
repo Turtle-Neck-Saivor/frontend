@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Chart from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import 'chartjs-plugin-streaming';
+import streamingPlugin from 'chartjs-plugin-streaming';
 import moment from 'moment';
-import { red } from '@mui/material/colors';
+import { blueGrey, red } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import styled from 'styled-components';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
-// const Chart = require('react-chartjs-2').Chart;
+Chart.pluginService.register(annotationPlugin, streamingPlugin);
 
 const chartColors = {
   red: 'rgb(255, 99, 132)',
@@ -19,13 +21,12 @@ const chartColors = {
   grey: 'rgb(201, 203, 207)',
 };
 
-// const color = Chart.helpers.color;
 const data = {
   datasets: [
     {
       label: 'Result Timeline',
-      backgroundColor: red,
-      borderColor: chartColors.red,
+      backgroundColor: chartColors.blue,
+      borderColor: chartColors.blue,
       fill: false,
       lineTension: 0,
       borderDash: [8, 4],
@@ -39,7 +40,40 @@ const ChartJSRealtime = () => {
     return state.result.resultData;
   });
 
+  const [redPoint, setRedPoint] = useState(
+    JSON.parse(localStorage.getItem('criticalPoint')).red,
+  );
+  const [yellowPoint, setYellowPoint] = useState(
+    JSON.parse(localStorage.getItem('criticalPoint')).yellow,
+  );
   const options = {
+    annotation: {
+      drawTime: 'afterDatasetsDraw', // (default)
+      events: ['click'],
+      dblClickSpeed: 350, // ms (default)
+      annotations: [
+        {
+          drawTime: 'afterDraw',
+          id: 'a-line-1',
+          type: 'line',
+          mode: 'horizontal',
+          scaleID: 'y-axis-0',
+          value: redPoint,
+          borderColor: 'red',
+          borderWidth: 3,
+        },
+        {
+          drawTime: 'afterDraw',
+          id: 'a-line-2',
+          type: 'line',
+          mode: 'horizontal',
+          scaleID: 'y-axis-0',
+          value: yellowPoint,
+          borderColor: 'red',
+          borderWidth: 3,
+        },
+      ],
+    },
     elements: {
       line: {
         tension: 0.5,
@@ -81,8 +115,9 @@ const ChartJSRealtime = () => {
         {
           ticks: {
             beginAtZero: true,
-            min: 10,
+            min: 0,
             max: 20,
+            stepSize: 5,
           },
         },
       ],

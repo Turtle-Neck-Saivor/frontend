@@ -2,10 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
   resultData: number;
+  criticalPointRed: number;
+  criticalPointYellow: number;
 };
 
 const initialState: InitialState = {
   resultData: 0,
+  criticalPointRed: 0,
+  criticalPointYellow: 0,
 };
 const resultSlice = createSlice({
   name: 'result',
@@ -13,15 +17,16 @@ const resultSlice = createSlice({
   reducers: {
     add: (state, action) => {
       state.resultData = action.payload;
-      // if (state.resultData.length >= 30) {
-      //   state.resultData.shift();
-      //   state.resultData.push(action.payload);
-      // } else {
-      //   state.resultData.push(action.payload);
-      // }
+    },
+    criticalPointRed: (state, action) => {
+      state.criticalPointRed = action.payload;
+    },
+    criticalPointYellow: (state, action) => {
+      state.criticalPointYellow = action.payload;
     },
   },
 });
 
 export default resultSlice;
-export const { add } = resultSlice.actions;
+export const { add, criticalPointRed, criticalPointYellow } =
+  resultSlice.actions;

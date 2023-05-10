@@ -21,17 +21,18 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@types/simple-peer": "^9.11.5",
     "apexcharts": "^3.40.0",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-annotation": "^0.5.7",
+    "chartjs-plugin-streaming": "^1.8.0",
     "esbuild": "^0.17.18",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
+    "react-chartjs-2": "^2.9.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
     "socket.io-client": "^4.6.1",
-    "styled-components": "^5.3.9",
-    "chart.js": "^2.9.3",
-    "chartjs-plugin-streaming": "^1.8.0",
-    "react-chartjs-2": "^2.9.0"
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.0.2",
