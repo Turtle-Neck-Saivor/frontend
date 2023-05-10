@@ -1,23 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
-  resultData: number[];
+  resultData: number;
 };
 
 const initialState: InitialState = {
-  resultData: [],
+  resultData: 0,
 };
 const resultSlice = createSlice({
   name: 'result',
   initialState,
   reducers: {
     add: (state, action) => {
-      if (state.resultData.length >= 30) {
-        state.resultData.shift();
-        state.resultData.push(action.payload);
-      } else {
-        state.resultData.push(action.payload);
-      }
+      state.resultData = action.payload;
+      // if (state.resultData.length >= 30) {
+      //   state.resultData.shift();
+      //   state.resultData.push(action.payload);
+      // } else {
+      //   state.resultData.push(action.payload);
+      // }
     },
   },
 });

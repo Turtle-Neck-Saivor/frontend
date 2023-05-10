@@ -119,8 +119,9 @@ const useHolistic = ({
       });
 
       setResultTurtleNeck(resulttutrlte.result);
-
-      dispach(add(resulttutrlte.y));
+      if (isDetect) {
+        dispach(add(resulttutrlte.y));
+      }
     }
   };
 

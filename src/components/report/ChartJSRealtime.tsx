@@ -5,6 +5,7 @@ import moment from 'moment';
 import { red } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
+import styled from 'styled-components';
 
 // const Chart = require('react-chartjs-2').Chart;
 
@@ -33,7 +34,7 @@ const data = {
   ],
 };
 
-const ChartJSRealtime = ({ latestData }: { latestData: number }) => {
+const ChartJSRealtime = () => {
   const resultData = useSelector((state: RootState) => {
     return state.result.resultData;
   });
@@ -87,17 +88,16 @@ const ChartJSRealtime = ({ latestData }: { latestData: number }) => {
       ],
     },
   };
-  useEffect(() => {
-    // const it = setInterval(() => {
-    //   console.log(resultData);
-    // }, 1000);
-    // return () => clearInterval(it);
-  }, []);
+
   return (
-    <div>
+    <ChartLayout>
       <Line data={data} options={options} />
-    </div>
+    </ChartLayout>
   );
 };
 
 export default ChartJSRealtime;
+
+const ChartLayout = styled.div`
+  width: 60vw;
+`;

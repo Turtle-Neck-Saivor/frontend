@@ -1,7 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import styled from 'styled-components';
 
 const ReportPage = () => {
-  return <div></div>;
+  return <ReportPageLayout></ReportPageLayout>;
 };
 
 export default ReportPage;
+
+const ReportPageLayout = styled.div`
+  padding: 2rem;
+`;

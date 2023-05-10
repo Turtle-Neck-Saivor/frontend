@@ -5,14 +5,15 @@
  * @returns
  */
 
+const STANDARD_DEGREE = 50;
+const radian = (STANDARD_DEGREE * Math.PI) / 180;
+const m = 9;
+const n = 1;
+
 export const checkTurtleNeck = (y: number, k: number): string => {
-  let degree = 50; 
-  let radian = (degree * Math.PI) / 180;
-  let m = 9;
-  let n = 1;
   const criticalPoint2 = Math.sin(radian) * k; // yellow
-  const criticalPoint1 = (k*m + criticalPoint2*n) / (m+n); // red
-  console.log(criticalPoint1);
+  const criticalPoint1 = (k * m + criticalPoint2 * n) / (m + n); // red
+
   if (0 < y && y < criticalPoint2) {
     return 'RED';
   } else if (criticalPoint2 < y && y < criticalPoint1) {
