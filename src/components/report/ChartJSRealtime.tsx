@@ -3,7 +3,6 @@ import Chart from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import streamingPlugin from 'chartjs-plugin-streaming';
 import moment from 'moment';
-import { blueGrey, red } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import styled from 'styled-components';
