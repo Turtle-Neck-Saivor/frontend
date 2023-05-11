@@ -125,6 +125,7 @@ const ChartJSRealtime = () => {
               ],
             },
           }}
+          height={130}
         />
       </ChartLayout>
     );

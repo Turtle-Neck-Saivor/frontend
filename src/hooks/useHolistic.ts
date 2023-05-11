@@ -8,7 +8,8 @@ import { algorithm } from '../utils/algorithm';
 import { useDispatch, useSelector } from 'react-redux';
 import useNotification from './useNotification';
 import { add } from '../stores/resultSlice';
-import { RootState } from '../stores';
+import store, { RootState } from '../stores';
+import { init, initing } from '../stores/cameraSlice';
 
 const useHolistic = ({
   eyebrowWidth,
@@ -16,17 +17,22 @@ const useHolistic = ({
 }: {
   eyebrowWidth: number;
   videoRef: React.RefObject<Webcam>;
+  isDetect: boolean;
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [resultTurtleNeck, setResultTurtleNeck] = useState('');
   const dispach = useDispatch();
-  const isDetect = useSelector((state: RootState) => {
-    return state.camera.isDetect;
+  const isIniting = useSelector((state: RootState) => {
+    return state.camera.isIniting;
   });
-
+  const [lshoulderData, setLshoulderData] = useState([0]);
+  const [learlobData, setLearlobData] = useState([0]);
+  const [isInitState, setIsInitState] = useState(false);
+  const [shoulderAverage, setShoulderAverage] = useState(0);
+  const [earlobAverage, setEarlobAverage] = useState(0);
   const { fireNotificationWithTimeout } = useNotification();
-
+  const isDetect = useSelector((state: RootState) => state.camera.isDetect);
   const onResults: h.ResultsListener = (results) => {
     if (!canvasRef.current || !videoRef.current?.video || !isDetect) {
       return;
@@ -116,20 +122,50 @@ const useHolistic = ({
         reyebrow: reyebrow,
         lshoulder: lshoulder,
         learlob: learlob,
+        shoulderAverage: shoulderAverage,
+        earlobAverage: earlobAverage,
       });
-
-      setResultTurtleNeck(resulttutrlte.result);
-      if (isDetect) {
-        dispach(add(resulttutrlte.y));
+      if (isIniting) {
+        setLshoulderData((cur) => {
+          const temp = [...cur];
+          temp.push(lshoulder.y);
+          return temp;
+        });
+        setLearlobData((cur) => {
+          const temp = [...cur];
+          temp.push(learlob.y);
+          return temp;
+        });
       }
+      setResultTurtleNeck(resulttutrlte.result);
+
+      dispach(add(resulttutrlte.y));
     }
   };
 
-  // useEffect(() => {
-  //   fireNotificationWithTimeout('🔔 거북목 경고 알림', {
-  //     body: '자세를 바르게 해주세요',
-  //   });
-  // }, [resultTurtleNeck]);
+  useEffect(() => {
+    if (resultTurtleNeck === 'RED' || resultTurtleNeck === 'YELLOW') {
+      fireNotificationWithTimeout('🔔 거북목 경고 알림', {
+        body: '자세를 바르게 해주세요',
+      });
+    }
+  }, [resultTurtleNeck]);
+
+  useEffect(() => {
+    if (lshoulderData.length === 50) {
+      store.dispatch(initing(false));
+      const shoulderSum = lshoulderData.reduce(function add(sum, currValue) {
+        return sum + currValue;
+      }, 0);
+      const earlobSum = learlobData.reduce(function add(sum, currValue) {
+        return sum + currValue;
+      }, 0);
+      setShoulderAverage(shoulderSum / lshoulderData.length);
+      setEarlobAverage(earlobSum / learlobData.length);
+      setIsInitState(true);
+      store.dispatch(init(true));
+    }
+  }, [lshoulderData, learlobData]);
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
@@ -163,8 +199,9 @@ const useHolistic = ({
       holistic.onResults(onResults);
     } else {
       holistic.onResults(() => undefined);
+      dispach(add(0));
     }
-  }, [isDetect]);
+  }, [isDetect, isInitState]);
 
   return {
     resultTurtleNeck,

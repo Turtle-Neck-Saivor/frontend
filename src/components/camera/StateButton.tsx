@@ -37,7 +37,7 @@ export default StateButton;
 
 const StatusButton = styled(Button)<{ boxColor: string }>`
   right: 0;
-  left: 0;
+  left: -8rem;
   top: 0;
   font-weight: 700;
   background-color: ${(props) => props.boxColor};
