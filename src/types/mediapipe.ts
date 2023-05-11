@@ -6,6 +6,8 @@ export interface DistanceMediapipe {
   reyebrow: Coordinate;
   lshoulder: Coordinate;
   learlob: Coordinate;
+  shoulderAverage: number;
+  earlobAverage: number;
 }
 
 export interface Coordinate {

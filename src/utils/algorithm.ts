@@ -20,6 +20,8 @@ export const algorithm = ({
   reyebrow,
   lshoulder,
   learlob,
+  shoulderAverage,
+  earlobAverage,
 }: DistanceMediapipe) => {
   // TODO: 사용자 입력 값
   let cmDistance = standradInput;
@@ -31,8 +33,8 @@ export const algorithm = ({
     reyebrow.y,
   );
 
-  // TODO: 어깨선과 귓볼의 수직 거리 초기 기준값 (현재 임의값)
-  let _k = getVerticalDistance(0.4849410355091095, 0.7636772990226746); // 80cm
+  // 어깨선과 귓볼의 수직 거리 초기 기준값
+  let _k = getVerticalDistance(earlobAverage, shoulderAverage); // 80cm
 
   // 사용자가 의식하지 않을 때 어깨선과 귓볼의 수직 거리 (실수)
   let _y = getVerticalDistance(learlob.y, lshoulder.y);
@@ -42,7 +44,7 @@ export const algorithm = ({
   let y = convertDimension(_y, cmDistance, mediapipeDistance);
 
   // 결과 반환
-  let result = checkTurtleNeck(y, 15);
+  let result = checkTurtleNeck(y, k);
 
   return {
     result,
