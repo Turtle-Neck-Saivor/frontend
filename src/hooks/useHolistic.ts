@@ -10,6 +10,7 @@ import useNotification from './useNotification';
 import { add } from '../stores/resultSlice';
 import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
+import { setAllCount, setRedCount, setYellowCount } from '../stores/logSlice';
 
 const useHolistic = ({
   eyebrowWidth,
@@ -138,7 +139,9 @@ const useHolistic = ({
         });
       }
       setResultTurtleNeck(resulttutrlte.result);
-
+      dispach(setAllCount(false));
+      if (resulttutrlte.result === 'RED') dispach(setRedCount(false));
+      if (resulttutrlte.result === 'YELLOW') dispach(setYellowCount(false));
       dispach(add(resulttutrlte.y));
     }
   };
@@ -187,11 +190,11 @@ const useHolistic = ({
       });
       camera.start();
     }
-    // return () => {
-    //   isCanceled = true;
-    //   holistic.onResults(() => undefined);
-    //   camera?.stop();
-    // };
+    return () => {
+      isCanceled = true;
+      holistic.onResults(() => undefined);
+      camera?.stop();
+    };
   }, []);
 
   useEffect(() => {

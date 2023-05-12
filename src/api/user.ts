@@ -33,7 +33,6 @@ export const login = async (args: FormProps) => {
         password: args.password,
       },
     };
-    console.log(options);
     const loginRes = await axios(options);
 
     localStorage.setItem('token', 'accessToken');

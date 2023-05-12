@@ -2,23 +2,40 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { set } from '../../stores/cameraSlice';
+import {
+  setAllCount,
+  setRedCount,
+  setYellowCount,
+} from '../../stores/logSlice';
+import { setHealth } from '../../api/healthLog';
 
 const IsDetectButton = () => {
   const [isHovering, setIsHovering] = useState(false);
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
+  const allCount = useSelector((state: RootState) => state.log.allCount);
+  const redCount = useSelector((state: RootState) => state.log.redCount);
+  const yellowCount = useSelector((state: RootState) => state.log.yellowCount);
+
+  const handleClickStop = async () => {
+    dispatch(set(false));
+    await setHealth({
+      nickname: 'user',
+      redCnt: redCount,
+      totalCnt: allCount,
+      yellowCnt: yellowCount,
+    });
+    dispatch(setAllCount(true));
+    dispatch(setYellowCount(true));
+    dispatch(setRedCount(true));
+  };
 
   if (isDetect) {
     return (
-      <ButtonLayout
-        onClick={() => {
-          dispach(set(false));
-        }}
-      >
+      <ButtonLayout onClick={handleClickStop}>
         <Button>
           <StopCircleIcon />
           <Text>Stop</Text>
@@ -33,7 +50,7 @@ const IsDetectButton = () => {
           onMouseOver={() => setIsHovering(true)}
           onMouseOut={() => setIsHovering(false)}
           onClick={() => {
-            dispach(set(true));
+            dispatch(set(true));
           }}
         >
           <Button style={{ backgroundColor: '#1bb21b' }}>

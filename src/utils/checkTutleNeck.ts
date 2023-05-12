@@ -5,6 +5,9 @@
  * @returns
  */
 
+import store from '../stores';
+import { criticalPointRed, criticalPointYellow } from '../stores/resultSlice';
+
 export const checkTurtleNeck = (y: number, k: number): string => {
   const STANDARD_DEGREE = 50;
   const radian = (STANDARD_DEGREE * Math.PI) / 180;
@@ -13,10 +16,8 @@ export const checkTurtleNeck = (y: number, k: number): string => {
 
   const criticalPoint2 = Math.sin(radian) * k; // yellow
   const criticalPoint1 = (k * m + criticalPoint2 * n) / (m + n); // red
-  localStorage.setItem(
-    'criticalPoint',
-    JSON.stringify({ red: criticalPoint1, yellow: criticalPoint2 }),
-  );
+  store.dispatch(criticalPointRed(criticalPoint1));
+  store.dispatch(criticalPointYellow(criticalPoint2));
 
   if (0 < y && y < criticalPoint2) {
     return 'RED';
