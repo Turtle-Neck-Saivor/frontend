@@ -38,11 +38,14 @@ const ChartJSRealtime = () => {
   const resultData = useSelector((state: RootState) => {
     return state.result.resultData;
   });
-  const [redPoint, setRedPoint] = useState(0);
-  const [yellowPoint, setYellowPoint] = useState(0);
+  const redPoint = useSelector((state: RootState) => {
+    return state.result.criticalPointRed;
+  });
+  const yellowPoint = useSelector((state: RootState) => {
+    return state.result.criticalPointYellow;
+  });
 
-  const options = {};
-  if (localStorage.getItem('criticalPoint')) {
+  if (redPoint !== 0 && yellowPoint !== 0) {
     return (
       <ChartLayout>
         <Line
@@ -59,7 +62,7 @@ const ChartJSRealtime = () => {
                   type: 'line',
                   mode: 'horizontal',
                   scaleID: 'y-axis-0',
-                  value: JSON.parse(localStorage.getItem('criticalPoint')).red,
+                  value: redPoint,
                   borderColor: 'orange',
                   borderWidth: 3,
                 },
@@ -69,8 +72,7 @@ const ChartJSRealtime = () => {
                   type: 'line',
                   mode: 'horizontal',
                   scaleID: 'y-axis-0',
-                  value: JSON.parse(localStorage.getItem('criticalPoint'))
-                    .yellow,
+                  value: yellowPoint,
                   borderColor: 'red',
                   borderWidth: 3,
                 },

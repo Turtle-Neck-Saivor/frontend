@@ -14,7 +14,9 @@ const CameraPage = () => {
   const isInit = useSelector((state: RootState) => {
     return state.camera.isInit;
   });
-
+  const redPoint = useSelector((state: RootState) => {
+    return state.result.criticalPointRed;
+  });
   useEffect(() => {
     return () => {
       dispatch(setAllCount(true));
@@ -25,35 +27,45 @@ const CameraPage = () => {
 
   if (isInit) {
     return (
-      <>
-        <PageTitle title="Camera" />
-        <IsDetectButton />
-        <Camera />
-        {localStorage.getItem('criticalPoint') ? (
+      <Layout>
+        <CameraLayout>
+          <PageTitle title="Camera" />
+          <IsDetectButton />
+          <Camera />
+        </CameraLayout>
+        {redPoint !== 0 ? (
           <ChartBox>
             <ChartJSRealtime />
           </ChartBox>
         ) : null}
-      </>
+      </Layout>
     );
   } else {
     return (
-      <>
-        <PageTitle title="Camera" />
-        <InitKButton />
-        <Camera />
-        {localStorage.getItem('criticalPoint') ? (
+      <Layout>
+        <CameraLayout>
+          <PageTitle title="Camera" />
+          <InitKButton />
+          <Camera />
+        </CameraLayout>
+        {redPoint !== 0 ? (
           <ChartBox>
             <ChartJSRealtime />
           </ChartBox>
         ) : null}
-      </>
+      </Layout>
     );
   }
 };
 
 export default CameraPage;
 
-const ChartBox = styled.div`
-  margin-left: 4rem;
+const ChartBox = styled.div``;
+
+const Layout = styled.div`
+  margin-left: 5rem;
+`;
+
+const CameraLayout = styled.div`
+  width: 60vw;
 `;
