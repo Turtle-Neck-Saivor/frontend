@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Button, ButtonLayout } from './IsDetectButton';
 import styled from 'styled-components';
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
 
 const StateButton = ({ resultTurtleNeck }: { resultTurtleNeck: string }) => {
-  const [status, setStatus] = useState('현재 상태');
+  const isDetect = useSelector((state: RootState) => state.camera.isDetect);
+  const [status, setStatus] = useState(resultTurtleNeck);
   const [color, setColor] = useState('grey');
-
-  useEffect(() => {
+  const setButton = () => {
     switch (resultTurtleNeck) {
       case 'GREEN':
         setStatus('정상');
@@ -25,7 +27,19 @@ const StateButton = ({ resultTurtleNeck }: { resultTurtleNeck: string }) => {
         setColor('grey');
         break;
     }
+  };
+  useEffect(() => {
+    if (!isDetect) {
+      setStatus('현재 상태');
+      setColor('grey');
+    } else {
+      setButton();
+    }
+  }, [isDetect]);
+  useEffect(() => {
+    setButton();
   }, [resultTurtleNeck]);
+
   return (
     <ButtonLayout>
       <StatusButton boxColor={color}>{status}</StatusButton>
