@@ -8,6 +8,7 @@ import CameraPage from './pages/CameraPage';
 import ReportPage from './pages/ReportPage';
 import SettingsPage from './pages/SettingsPage';
 import LoginPage from './pages/LoginPage';
+import StretchingPage from './pages/StretchingPage';
 
 const routerData: RouterBase[] = [
   {
@@ -51,6 +52,13 @@ const routerData: RouterBase[] = [
     label: 'Login',
     element: <LoginPage />,
     withAuth: false,
+  },
+  {
+    id: 6,
+    path: '/stretching',
+    label: 'Stretching',
+    element: <StretchingPage />,
+    withAuth: true,
   },
 ];
 

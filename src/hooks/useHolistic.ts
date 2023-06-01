@@ -30,6 +30,7 @@ const useHolistic = ({
   const isIniting = useSelector((state: RootState) => {
     return state.camera.isIniting;
   });
+  const [isDialog, setIssDialog] = useState(false);
   const [lshoulderData, setLshoulderData] = useState([0]);
   const [learlobData, setLearlobData] = useState([0]);
   const [isInitState, setIsInitState] = useState(false);
@@ -219,6 +220,7 @@ const useHolistic = ({
     resultTurtleNeck,
     canvasRef,
     isLoading,
+    isDialog,
   };
 };
 
