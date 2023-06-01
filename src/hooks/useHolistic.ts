@@ -11,6 +11,9 @@ import { add } from '../stores/resultSlice';
 import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
 import { setAllCount, setRedCount, setYellowCount } from '../stores/logSlice';
+import useInterval from './useInterval';
+
+const STRETCHING_INTERVAL_TIME = 3600000;
 
 const useHolistic = ({
   eyebrowWidth,
@@ -196,6 +199,12 @@ const useHolistic = ({
       camera?.stop();
     };
   }, []);
+
+  useInterval(() => {
+    fireNotificationWithTimeout('🐢 스트레칭 알림 🐢', {
+      body: '컴퓨터를 한지 1시간이 경과했습니다. 웹사이트로 돌아와서 스트레칭을 진행해주세요.',
+    });
+  }, STRETCHING_INTERVAL_TIME);
 
   useEffect(() => {
     if (isDetect) {
