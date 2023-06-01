@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import Webcam from 'react-webcam';
 import useHolistic from '../../hooks/useHolistic';
@@ -6,17 +6,20 @@ import Loading from '../Loading';
 import StateButton from './StateButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
+import AlertDialog from '../AlertDialog';
+import { useNavigate } from 'react-router-dom';
 
 /**
  *  camera 컴포넌트
  */
 
 const Camera = () => {
+  const navigate = useNavigate();
   const videoRef = useRef<Webcam>(null);
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
   const isIniting = useSelector((state: RootState) => state.camera.isIniting);
 
-  const { resultTurtleNeck, canvasRef, isLoading } = useHolistic({
+  const { resultTurtleNeck, canvasRef, isLoading, isDialog } = useHolistic({
     eyebrowWidth: 8,
     videoRef: videoRef,
     isDetect: isDetect,
@@ -25,6 +28,14 @@ const Camera = () => {
   return (
     <>
       {isLoading && <Loading />}
+      <AlertDialog
+        isDialog={isDialog}
+        title="스트레칭하러 가기"
+        description="컴퓨터 사용 1시간이 경과하였습니다. 스트레칭을 진행해주세요"
+        handleAgree={() => {
+          navigate('/stretching');
+        }}
+      />
       <VideoLayout>
         <StateButton resultTurtleNeck={resultTurtleNeck} />
         <VideoBox>
