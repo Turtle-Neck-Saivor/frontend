@@ -62,10 +62,10 @@ export default CameraPage;
 
 const ChartBox = styled.div``;
 
-const Layout = styled.div`
+export const Layout = styled.div`
   margin-left: 5rem;
 `;
 
-const CameraLayout = styled.div`
+export const CameraLayout = styled.div`
   width: 60vw;
 `;

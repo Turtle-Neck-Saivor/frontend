@@ -61,7 +61,7 @@ const Camera = () => {
 
 export default Camera;
 
-const VideoLayout = styled.div`
+export const VideoLayout = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
