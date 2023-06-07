@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Doughnut, defaults } from 'react-chartjs-2';
-import ChartLayout from './ChartLayout';
+import { ChartLayout } from './ChartLayout.style';
 import ChartTitle from './ChartTitle';
 
 /**

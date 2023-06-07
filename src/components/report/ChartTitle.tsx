@@ -13,7 +13,7 @@ const Title = styled.div`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #595959;
   z-index: 3;
 `;
