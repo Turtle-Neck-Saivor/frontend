@@ -9,6 +9,7 @@ export default ChartTitle;
 
 const Title = styled.div`
   position: relative;
+  margin-right: 0.5rem;
   bottom: 0.5rem;
   font-family: 'Inter';
   font-style: normal;
