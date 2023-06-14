@@ -4,6 +4,7 @@ import DoughnutChart from '../components/report/DoughnutChart';
 import WeekBarChart from '../components/report/WeekBarChart';
 import RegressionChart from '../components/report/RegressionChart';
 import { Button } from '@mui/material';
+import Temperature from '../components/report/Temperature';
 const ReportPage = () => {
   const [data, setData] = useState([
     { x: 0, y: 6 },
@@ -32,6 +33,7 @@ const ReportPage = () => {
       </ChartContainer>
       <RegressionChart data={data} />
       <Button onClick={addData}>데이터 추가</Button>
+      <Temperature />
     </ReportPageLayout>
   );
 };
