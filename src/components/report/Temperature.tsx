@@ -18,14 +18,17 @@ const Temperature = () => {
 export default Temperature;
 
 const TemperatureLayout = styled(ChartLayout)`
+  display: flex;
   width: fit-content;
   flex-direction: column;
-  padding: 1.8rem 1.5rem;
+  padding: 1.3rem 1.5rem;
+  margin: 0 0 0 2rem;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: start;
+  margin-top: 1rem;
 `;
 
 const Image = styled.img`

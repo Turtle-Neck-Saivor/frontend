@@ -5,6 +5,7 @@ import WeekBarChart from '../components/report/WeekBarChart';
 import RegressionChart from '../components/report/RegressionChart';
 import { Button } from '@mui/material';
 import Temperature from '../components/report/Temperature';
+import ReportCalendar from '../components/report/ReportCalendar';
 const ReportPage = () => {
   const [data, setData] = useState([
     { x: 0, y: 6 },
@@ -33,7 +34,10 @@ const ReportPage = () => {
       </ChartContainer>
       <RegressionChart data={data} />
       <Button onClick={addData}>데이터 추가</Button>
-      <Temperature />
+      <TemperatureLayout>
+        <Temperature />
+        <ReportCalendar />
+      </TemperatureLayout>
     </ReportPageLayout>
   );
 };
@@ -47,4 +51,10 @@ const ReportPageLayout = styled.div`
 
 const ChartContainer = styled.div`
   display: flex;
+`;
+
+const TemperatureLayout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 `;
