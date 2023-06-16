@@ -1,6 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Doughnut, defaults } from 'react-chartjs-2';
+import { ChartLayout } from './ChartLayout.style';
+import ChartTitle from './ChartTitle';
+
+/**
+ * Day 도넛 차트
+ * TODO: API 연동 후 퍼센트 반영
+ */
 
 defaults.global.tooltips.enabled = false;
 defaults.global.legend.position = 'bottom';
@@ -16,7 +24,7 @@ const DoughnutChart = () => {
         var fontSize = (height / 200).toFixed(2);
         ctx.font = fontSize + 'em sans-serif';
         ctx.textBaseline = 'top';
-        var text = '12%',
+        var text = '70%',
           textX = Math.round((width - ctx.measureText(text).width) / 2),
           textY = height / 2.5;
         ctx.fillText(text, textX, textY);
@@ -26,22 +34,26 @@ const DoughnutChart = () => {
   ];
 
   return (
-    <ChartLayout>
+    <DoughnutChartLayout>
+      <ChartTitle title="Day" />
       <Doughnut
         data={{
-          labels: ['Red', 'Blue'],
+          labels: ['straight neck'],
           datasets: [
             {
               label: '# of votes',
-              data: [12, 88],
+              data: [70, 30],
+              borderRadius: 5,
+              offset: 10,
               backgroundColor: ['#5B33CC', '#f3eeff'],
               borderColor: ['#5B33CC', '#f3eeff'],
             },
           ],
         }}
-        height={300}
-        width={500}
+        height={150}
+        width={130}
         options={{
+          cutoutPercentage: 80,
           maintainAspectRatio: false,
           scales: {
             yAxes: [],
@@ -54,20 +66,18 @@ const DoughnutChart = () => {
           },
           legend: {
             labels: {
-              fontSize: 25,
+              fontSize: 15,
             },
           },
         }}
         plugins={plugins}
       />
-    </ChartLayout>
+    </DoughnutChartLayout>
   );
 };
 
 export default DoughnutChart;
 
-const ChartLayout = styled.div`
-  width: 60vw;
-  display: flex;
-  margin: 2rem 0;
+const DoughnutChartLayout = styled(ChartLayout)`
+  flex-grow: 1;
 `;

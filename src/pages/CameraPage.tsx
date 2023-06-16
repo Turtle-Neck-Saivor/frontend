@@ -60,12 +60,14 @@ const CameraPage = () => {
 
 export default CameraPage;
 
-const ChartBox = styled.div``;
+const ChartBox = styled.div`
+  margin-left: 6rem;
+`;
 
 const Layout = styled.div`
-  margin-left: 5rem;
+  padding-left: 2rem;
 `;
 
 const CameraLayout = styled.div`
-  width: 60vw;
+  width: 70vw;
 `;
