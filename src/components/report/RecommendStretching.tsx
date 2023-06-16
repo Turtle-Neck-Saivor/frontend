@@ -10,7 +10,11 @@ const RecommendStretching = () => {
       <PageTitle title="추천 스트레칭" />
       <StrechingContainer>
         <StretchingInfo />
-        <AddRoutine />
+        <AddRoutine isCheck={false} />
+      </StrechingContainer>
+      <StrechingContainer>
+        <StretchingInfo />
+        <AddRoutine isCheck={true} />
       </StrechingContainer>
     </RecommendStrechingLayout>
   );
@@ -23,5 +27,6 @@ const RecommendStrechingLayout = styled.div`
 `;
 
 const StrechingContainer = styled.div`
+  display: flex;
   width: 100%;
 `;

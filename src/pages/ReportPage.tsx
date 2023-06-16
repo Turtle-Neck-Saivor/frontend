@@ -6,6 +6,9 @@ import RegressionChart from '../components/report/RegressionChart';
 import { Button } from '@mui/material';
 import Temperature from '../components/report/Temperature';
 import ReportCalendar from '../components/report/ReportCalendar';
+import RecommendStreching from '../components/report/RecommendStretching';
+import PageTitle from '../components/PageTitle';
+
 const ReportPage = () => {
   const [data, setData] = useState([
     { x: 0, y: 6 },
@@ -28,6 +31,7 @@ const ReportPage = () => {
   };
   return (
     <ReportPageLayout>
+      <PageTitle title="Report" />
       <ChartContainer>
         <DoughnutChart />
         <WeekBarChart />
@@ -38,6 +42,7 @@ const ReportPage = () => {
         <Temperature />
         <ReportCalendar />
       </TemperatureLayout>
+      <RecommendStreching />
     </ReportPageLayout>
   );
 };
@@ -46,15 +51,17 @@ export default ReportPage;
 
 const ReportPageLayout = styled.div`
   width: 75vw;
-  padding: 2rem;
+  padding: 0 3.3rem;
 `;
 
 const ChartContainer = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const TemperatureLayout = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   margin-top: 1rem;
 `;
