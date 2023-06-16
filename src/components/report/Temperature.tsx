@@ -3,12 +3,19 @@ import styled from 'styled-components';
 import { ChartLayout } from './ChartLayout.style';
 import ChartTitle from './ChartTitle';
 import image from '../../assets/turtle_temperature.png';
+import HelpIcon from '@mui/icons-material/Help';
+import { SvgIcon } from '@mui/material';
 
 const Temperature = () => {
   return (
     <TemperatureLayout>
       <TitleContainer>
         <ChartTitle title="거북이 온도(Total)" />
+        <SvgIcon
+          component={HelpIcon}
+          color="disabled"
+          sx={{ m: 0, fontSize: 20 }}
+        />
       </TitleContainer>
       <Image src={image} />
     </TemperatureLayout>
@@ -29,7 +36,6 @@ const TitleContainer = styled.div`
   display: flex;
   width: max-content;
   justify-content: start;
-  margin-top: 1rem;
 `;
 
 const Image = styled.img`

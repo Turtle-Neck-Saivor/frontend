@@ -10,11 +10,10 @@ export default ChartTitle;
 const Title = styled.div`
   position: relative;
   margin-right: 0.5rem;
-  bottom: 0.5rem;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: rem;
   color: #595959;
   z-index: 3;
 `;
