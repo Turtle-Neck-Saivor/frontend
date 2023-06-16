@@ -34,7 +34,7 @@ const DoughnutChart = () => {
   ];
 
   return (
-    <ChartLayout>
+    <DoughnutChartLayout>
       <ChartTitle title="Day" />
       <Doughnut
         data={{
@@ -72,8 +72,12 @@ const DoughnutChart = () => {
         }}
         plugins={plugins}
       />
-    </ChartLayout>
+    </DoughnutChartLayout>
   );
 };
 
 export default DoughnutChart;
+
+const DoughnutChartLayout = styled(ChartLayout)`
+  flex-grow: 1;
+`;

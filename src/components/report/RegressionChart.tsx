@@ -70,7 +70,7 @@ const RegressionChart = ({ data }: { data: DataPoint[] }) => {
       <ChartTitle title="Month" />
       <ChartContainer>
         <Scatter
-          width={920}
+          width={910}
           height={300}
           data={chartData}
           options={{
@@ -89,8 +89,9 @@ const RegressionChart = ({ data }: { data: DataPoint[] }) => {
 export default RegressionChart;
 
 const RegressionChartLayout = styled(ChartLayout)`
-  width: 85%;
+  width: max-content;
   height: 19rem;
+  padding: 2rem;
 `;
 
 const ChartContainer = styled.div`

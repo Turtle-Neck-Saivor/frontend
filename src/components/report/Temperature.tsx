@@ -29,7 +29,8 @@ const TemperatureLayout = styled(ChartLayout)`
   width: 25%;
   flex-direction: column;
   padding: 1.3rem 1.5rem;
-  margin: 0 4rem 0 2rem;
+  margin: 0 2rem 0 2rem;
+  flex-grow: 1;
 `;
 
 const TitleContainer = styled.div`
@@ -40,6 +41,8 @@ const TitleContainer = styled.div`
 
 const Image = styled.img`
   width: 10.8rem;
-  height: 11rem;
-  padding: 0 2rem;
+  align-self: center;
+  height: 10rem;
+  margin-top: 1rem;
+  padding: 0rem;
 `;

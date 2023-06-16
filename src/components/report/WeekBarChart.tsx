@@ -68,7 +68,7 @@ const WeekBarChart = () => {
     <BarChartLayout>
       <ChartTitle title="Week" />
       <BarContainer>
-        <Bar data={data} options={options} width={570} height={230} />
+        <Bar data={data} options={options} width={545} height={230} />
       </BarContainer>
     </BarChartLayout>
   );
@@ -77,8 +77,8 @@ const WeekBarChart = () => {
 export default WeekBarChart;
 
 const BarChartLayout = styled(ChartLayout)`
-  width: 53%;
   padding-left: 1.5rem;
+  flex-grow: 20;
 `;
 
 const BarContainer = styled.div`
