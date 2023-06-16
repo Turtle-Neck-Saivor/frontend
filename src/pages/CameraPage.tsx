@@ -64,7 +64,9 @@ const ChartBox = styled.div`
   margin-left: 6rem;
 `;
 
-const Layout = styled.div``;
+const Layout = styled.div`
+  padding-left: 2rem;
+`;
 
 const CameraLayout = styled.div`
   width: 70vw;
