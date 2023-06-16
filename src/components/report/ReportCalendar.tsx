@@ -25,5 +25,5 @@ const ReportCalendar = () => {
 export default ReportCalendar;
 
 const CalendarLayout = styled.div`
-  margin-right: 2rem;
+  width: 75%;
 `;

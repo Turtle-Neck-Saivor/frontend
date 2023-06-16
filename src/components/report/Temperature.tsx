@@ -19,14 +19,15 @@ export default Temperature;
 
 const TemperatureLayout = styled(ChartLayout)`
   display: flex;
-  width: fit-content;
+  width: 25%;
   flex-direction: column;
   padding: 1.3rem 1.5rem;
-  margin: 0 0 0 2rem;
+  margin: 0 4rem 0 2rem;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
+  width: max-content;
   justify-content: start;
   margin-top: 1rem;
 `;

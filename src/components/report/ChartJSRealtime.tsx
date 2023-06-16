@@ -139,7 +139,7 @@ const ChartJSRealtime = () => {
 export default ChartJSRealtime;
 
 const ChartLayout = styled.div`
-  width: 60vw;
+  width: 65vw;
   display: flex;
   margin: 2rem 0;
 `;

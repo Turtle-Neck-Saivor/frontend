@@ -91,7 +91,6 @@ export default RegressionChart;
 const RegressionChartLayout = styled(ChartLayout)`
   width: 85%;
   height: 19rem;
-  padding-left: 1.5rem;
 `;
 
 const ChartContainer = styled.div`

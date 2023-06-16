@@ -69,7 +69,7 @@ const VideoLayout = styled.div`
 `;
 
 const VideoBox = styled.div`
-  width: 40vw;
+  width: 45vw;
   border-radius: 1.5rem;
   @media all and (min-width: 768px) and (max-width: 1160px) {
     width: 40vw;
@@ -85,7 +85,7 @@ const Canvas = styled.canvas`
   position: absolute;
   border-radius: 1.5rem;
   z-index: 9;
-  width: 40vw;
+  width: 45vw;
   @media all and (min-width: 768px) and (max-width: 1160px) {
     width: 40vw;
     margin: 0;
