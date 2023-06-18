@@ -9,6 +9,7 @@ import ReportPage from './pages/ReportPage';
 import SettingsPage from './pages/SettingsPage';
 import LoginPage from './pages/LoginPage';
 import StretchingPage from './pages/StretchingPage';
+import DiagnosisPage from './pages/DiagnosisPage';
 
 const routerData: RouterBase[] = [
   {
@@ -58,6 +59,13 @@ const routerData: RouterBase[] = [
     path: '/stretching',
     label: 'Stretching',
     element: <StretchingPage />,
+    withAuth: true,
+  },
+  {
+    id: 7,
+    path: '/diagnosis',
+    label: 'Diagnosis',
+    element: <DiagnosisPage />,
     withAuth: true,
   },
 ];
