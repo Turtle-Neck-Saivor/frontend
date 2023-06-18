@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import DiagnosisList from '../components/diagnosis/DiagnosisList';
+import TextButton from '../components/TextButton';
 
 const DiagnosisPage = () => {
   return (
@@ -11,6 +12,9 @@ const DiagnosisPage = () => {
           <SubTitle>문항을 읽고 해당하는 항목을 모두 선택해주세요</SubTitle>
         </TitleContainer>
         <DiagnosisList />
+        <ButtonContainer>
+          <TextButton text="제출하기" color="#5C73DB" />
+        </ButtonContainer>
       </CenterLayout>
     </DiagnosisPageLayout>
   );
@@ -48,4 +52,10 @@ const SubTitle = styled.p`
   font-weight: 600;
   font-size: 1rem;
   color: #8d929b;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-left: 3rem;
 `;

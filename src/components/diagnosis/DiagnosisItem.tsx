@@ -3,16 +3,20 @@ import styled from 'styled-components';
 import DoneIcon from '@mui/icons-material/Done';
 import { SvgIcon } from '@mui/material';
 
-const DiagnosisItem = () => {
+const DiagnosisItem = ({ text }: { text: string }) => {
   const [isCheck, setIsCheck] = useState(false);
   return (
     <UnCheckItemLayout
-      isCheck
+      isCheck={isCheck}
       onClick={() => {
         setIsCheck((prev) => !prev);
       }}
     >
-      <SvgIcon component={DoneIcon} sx={{ color: '#9A9EA5' }} />
+      <DiagnosisText isCheck={isCheck}>{text}</DiagnosisText>
+      <SvgIcon
+        component={DoneIcon}
+        sx={{ color: `${isCheck ? '#5c73db' : '#9A9EA5'}` }}
+      />
     </UnCheckItemLayout>
   );
 };
@@ -20,20 +24,22 @@ const DiagnosisItem = () => {
 export default DiagnosisItem;
 
 const UnCheckItemLayout = styled.div<{ isCheck: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 4rem;
+  height: 2.5rem;
+  margin-bottom: 2rem;
   background: #ffffff;
-  border: 1px solid #e4e4e4;
+  border: 1px solid ${(props) => (props.isCheck ? '#5c73db' : '#e4e4e4')};
+  padding: 1rem 1.5rem;
   border-radius: 5px;
+  ${(props) =>
+    props.isCheck ? 'box-shadow: 0px 4px 15px rgba(92, 115, 219, 0.25);' : ''};
   cursor: pointer;
 `;
 
-const CheckItemLayout = styled(UnCheckItemLayout)`
-  box-shadow: 0px 4px 15px rgba(92, 115, 219, 0.25);
-  border: 1px solid #5c73db;
-  color: #5c73db;
-`;
-
-const DiagnosisText = styled.p`
+const DiagnosisText = styled.p<{ isCheck: boolean }>`
   display: flex;
+  color: ${(props) => (props.isCheck ? '#5c73db' : '#242426')};
 `;
