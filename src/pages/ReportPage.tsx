@@ -8,8 +8,12 @@ import Temperature from '../components/report/Temperature';
 import ReportCalendar from '../components/report/ReportCalendar';
 import RecommendStreching from '../components/report/RecommendStretching';
 import PageTitle from '../components/PageTitle';
+import AlertDialog from '../components/AlertDialog';
+import { useNavigate } from 'react-router-dom';
 
 const ReportPage = () => {
+  const navigate = useNavigate();
+  const [isDialog, setIsDialog] = useState(false);
   const [data, setData] = useState([
     { x: 0, y: 6 },
     { x: 1, y: 3 },
@@ -31,7 +35,28 @@ const ReportPage = () => {
   };
   return (
     <ReportPageLayout>
-      <PageTitle title="Report" />
+      <AlertDialog
+        isDialog={isDialog}
+        setIsDialog={setIsDialog}
+        title="거북목 자가진단 하러가기"
+        description="거북목을 관찰한지 28일이 경과하였습니다. \n
+        거북목 증후군이 의심되어 자가진단이 필요합니다."
+        handleAgree={() => {
+          navigate('/diagnosis');
+        }}
+      />
+      <TitleContainer>
+        <PageTitle title="Report" />
+        <ButtonLayout>
+          <Button
+            variant="contained"
+            sx={{ height: '2rem', background: '#5C73DB' }}
+            onClick={() => setIsDialog(true)}
+          >
+            자가진단
+          </Button>
+        </ButtonLayout>
+      </TitleContainer>
       <ChartContainer>
         <DoughnutChart />
         <WeekBarChart />
@@ -64,4 +89,15 @@ const TemperatureLayout = styled.div`
   width: 100%;
   justify-content: space-between;
   margin-top: 1rem;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ButtonLayout = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 3rem 2.5rem 0 0;
 `;

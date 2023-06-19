@@ -6,17 +6,16 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DialogProps } from '../types/Dialog';
 
 const AlertDialog = (props: DialogProps) => {
-  const [open, setOpen] = useState(props.isDialog);
   const handleClose = () => {
-    setOpen(false);
+    props.setIsDialog(false);
   };
   return (
     <Dialog
-      open={open}
+      open={props.isDialog}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"

@@ -19,17 +19,19 @@ const Camera = () => {
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
   const isIniting = useSelector((state: RootState) => state.camera.isIniting);
 
-  const { resultTurtleNeck, canvasRef, isLoading, isDialog } = useHolistic({
-    eyebrowWidth: 8,
-    videoRef: videoRef,
-    isDetect: isDetect,
-  });
+  const { resultTurtleNeck, canvasRef, isLoading, isDialog, setIsDialog } =
+    useHolistic({
+      eyebrowWidth: 8,
+      videoRef: videoRef,
+      isDetect: isDetect,
+    });
 
   return (
     <>
       {isLoading && <Loading />}
       <AlertDialog
         isDialog={isDialog}
+        setIsDialog={setIsDialog}
         title="스트레칭하러 가기"
         description="컴퓨터 사용 1시간이 경과하였습니다. 스트레칭을 진행해주세요"
         handleAgree={() => {
