@@ -10,6 +10,7 @@ import RecommendStreching from '../components/report/RecommendStretching';
 import PageTitle from '../components/PageTitle';
 import AlertDialog from '../components/AlertDialog';
 import { useNavigate } from 'react-router-dom';
+import ReportTitle from '../components/report/ReportTitle';
 
 const ReportPage = () => {
   const navigate = useNavigate();
@@ -45,18 +46,7 @@ const ReportPage = () => {
           navigate('/diagnosis');
         }}
       />
-      <TitleContainer>
-        <PageTitle title="Report" />
-        <ButtonLayout>
-          <Button
-            variant="contained"
-            sx={{ height: '2rem', background: '#5C73DB' }}
-            onClick={() => setIsDialog(true)}
-          >
-            자가진단
-          </Button>
-        </ButtonLayout>
-      </TitleContainer>
+      <ReportTitle setIsDialog={setIsDialog} />
       <ChartContainer>
         <DoughnutChart />
         <WeekBarChart />
@@ -89,15 +79,4 @@ const TemperatureLayout = styled.div`
   width: 100%;
   justify-content: space-between;
   margin-top: 1rem;
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ButtonLayout = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 3rem 2.5rem 0 0;
 `;
