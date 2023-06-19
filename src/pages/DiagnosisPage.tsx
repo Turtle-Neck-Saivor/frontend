@@ -27,6 +27,7 @@ const DiagnosisPageLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 2rem;
 `;
 
 const CenterLayout = styled.div`

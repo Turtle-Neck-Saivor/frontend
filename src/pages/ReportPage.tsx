@@ -39,7 +39,7 @@ const ReportPage = () => {
         isDialog={isDialog}
         setIsDialog={setIsDialog}
         title="거북목 자가진단 하러가기"
-        description="거북목을 관찰한지 28일이 경과하였습니다. \n
+        description="거북목을 관찰한지 28일이 경과하였습니다.
         거북목 증후군이 의심되어 자가진단이 필요합니다."
         handleAgree={() => {
           navigate('/diagnosis');
