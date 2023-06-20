@@ -13,7 +13,7 @@ const Loading = () => {
 export default Loading;
 
 export const Background = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   top: 0;

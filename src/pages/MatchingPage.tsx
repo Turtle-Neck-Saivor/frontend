@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import MatchingTitle from '../components/matching/MatchingTitle';
-import ResultBox from '../components/matching/ResultBox';
-import SeriousResult from '../components/matching/SeriousResult';
 import WarningResult from '../components/matching/WarningResult';
-import InfoResult from '../components/matching/InfoResult';
-import PageTitle from '../components/PageTitle';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import MatchingMap from '../components/matching/MatchingMap';
 
 const MatchingPage = () => {
   return (
@@ -13,6 +11,7 @@ const MatchingPage = () => {
       <MatchingTitle />
       <WarningResult />
       <SubTitle>Medical institution</SubTitle>
+      <MatchingMap keyword="정형외과" />
     </MatchingPageLayout>
   );
 };
