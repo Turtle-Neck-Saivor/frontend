@@ -2,16 +2,24 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import DoneIcon from '@mui/icons-material/Done';
 import { SvgIcon } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { deleteItem, setItem } from '../../stores/diagnosisSlice';
 
-const DiagnosisItem = ({ text }: { text: string }) => {
+const DiagnosisItem = ({ text, type }: { text: string; type: string }) => {
   const [isCheck, setIsCheck] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleCheck = () => {
+    setIsCheck((prev) => !prev);
+    if (!isCheck) {
+      dispatch(setItem(type));
+    } else {
+      dispatch(deleteItem(type));
+    }
+  };
+
   return (
-    <UnCheckItemLayout
-      isCheck={isCheck}
-      onClick={() => {
-        setIsCheck((prev) => !prev);
-      }}
-    >
+    <UnCheckItemLayout isCheck={isCheck} onClick={handleCheck}>
       <DiagnosisText isCheck={isCheck}>{text}</DiagnosisText>
       <SvgIcon
         component={DoneIcon}
