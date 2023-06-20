@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MatchingTitle from '../components/matching/MatchingTitle';
 import WarningResult from '../components/matching/WarningResult';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import MatchingMap from '../components/matching/MatchingMap';
+import MapContainer from '../components/matching/MapContainer';
 
 const MatchingPage = () => {
   return (
@@ -11,7 +10,7 @@ const MatchingPage = () => {
       <MatchingTitle />
       <WarningResult />
       <SubTitle>Medical institution</SubTitle>
-      <MatchingMap keyword="정형외과" />
+      <MapContainer />
     </MatchingPageLayout>
   );
 };

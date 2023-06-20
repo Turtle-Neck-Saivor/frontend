@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import { MarkerType } from '../../types/matching';
+import { ItemProps, MarkerType } from '../../types/matching';
 import Loading from '../Loading';
 import styled from 'styled-components';
 
-const MatchingMap = ({ keyword }: { keyword: string }) => {
+interface Props {
+  keyword: string;
+  setItems: React.Dispatch<React.SetStateAction<ItemProps[]>>;
+}
+
+const MatchingMap = ({ keyword, setItems }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [state, setState] = useState({
     center: {
@@ -43,6 +48,7 @@ const MatchingMap = ({ keyword }: { keyword: string }) => {
   const searchCallback = (data, status, _pagination) => {
     if (status === kakao.maps.services.Status.OK) {
       let markers = [];
+      let items = [];
       for (var i = 0; i < data.length; i++) {
         markers.push({
           position: {
@@ -51,8 +57,14 @@ const MatchingMap = ({ keyword }: { keyword: string }) => {
           },
           content: data[i].place_name,
         });
+        items.push({
+          placeName: data[i].place_name,
+          address: data[i].road_address_name,
+          url: data[i].place_url,
+        });
       }
       setMarkers(markers);
+      setItems(items);
       setIsLoading(false);
     }
   };
@@ -77,39 +89,40 @@ const MatchingMap = ({ keyword }: { keyword: string }) => {
     initMap();
   }, []);
 
-  if (isLoading) {
-    return <Loading />; // Or replace with a loading spinner
-  } else {
-    return (
-      <MatchingMapLayout>
-        <Map
-          center={state.center}
-          style={{
-            width: '50%',
-            height: '450px',
-            borderRadius: '1rem',
-          }}
-          level={5}
-        >
-          {markers.map((marker) => (
-            <MapMarker
-              key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-              position={marker.position}
-              onClick={() => setInfo(marker)}
-            >
-              {info && info.content === marker.content && (
-                <div style={{ color: '#000' }}>{marker.content}</div>
-              )}
-            </MapMarker>
-          ))}
-        </Map>
-      </MatchingMapLayout>
-    );
-  }
+  return (
+    <MatchingMapLayout>
+      <Map
+        center={state.center}
+        style={{
+          width: '100%',
+          height: '450px',
+          borderRadius: '1rem',
+        }}
+        level={5}
+      >
+        {markers.map((marker) => (
+          <MapMarker
+            key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+            position={marker.position}
+            onClick={() => setInfo(marker)}
+          >
+            {info && info.content === marker.content && (
+              <Content style={{ color: '#000' }}>{marker.content}</Content>
+            )}
+          </MapMarker>
+        ))}
+      </Map>
+    </MatchingMapLayout>
+  );
 };
 
 export default MatchingMap;
 
 const MatchingMapLayout = styled.div`
+  width: 45%;
   margin: 1rem 2rem;
+`;
+
+const Content = styled.div`
+  padding-left: 0.4rem;
 `;

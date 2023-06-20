@@ -5,3 +5,9 @@ export interface MarkerType {
   };
   content: string;
 }
+
+export interface ItemProps {
+  placeName: string;
+  address: string;
+  url: string;
+}
