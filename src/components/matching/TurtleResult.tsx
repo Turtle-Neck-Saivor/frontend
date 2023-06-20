@@ -2,10 +2,10 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import styled from 'styled-components';
 
-const SeriousResult = () => {
+const TurtleResult = () => {
   return (
     <ResultBox color="#bc0c0c">
-      자가진단에 따르면 거북목 증후군이 “심각”할 것으로 예상됩니다.
+      자가진단에 따르면 거북목 증후군 증상이 의심됩니다.
       <br />
       거북목 증후군은 스트레칭과 운동을 통한 목 주변 근육 강화로 자가치료가
       가능하지만, <br />
@@ -14,4 +14,4 @@ const SeriousResult = () => {
   );
 };
 
-export default SeriousResult;
+export default TurtleResult;

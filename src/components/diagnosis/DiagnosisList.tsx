@@ -16,7 +16,9 @@ const DiagnosisList = () => {
   return (
     <DiagnosisListLayout>
       {data &&
-        data.map((data) => <DiagnosisItem key={data.id} text={data.text} />)}
+        data.map((data) => (
+          <DiagnosisItem key={data.id} text={data.text} type={data.type} />
+        ))}
     </DiagnosisListLayout>
   );
 };

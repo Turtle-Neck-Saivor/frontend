@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MatchingMap from './MatchingMap';
 import MatchingList from './MatchingList';
 import { ItemProps } from '../../types/matching';
 
-const MapContainer = () => {
+const MapContainer = ({ keyword }: { keyword: string }) => {
   const [items, setItems] = useState<ItemProps[]>([]);
+
   return (
     <MapContainerLayout>
-      <MatchingMap keyword="정형외과" setItems={setItems} />
+      <MatchingMap keyword={keyword} items={items} setItems={setItems} />
       <MatchingList items={items} />
     </MapContainerLayout>
   );

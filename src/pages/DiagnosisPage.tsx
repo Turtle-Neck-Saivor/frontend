@@ -1,23 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import DiagnosisList from '../components/diagnosis/DiagnosisList';
 import TextButton from '../components/TextButton';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../stores';
+import { useDispatch, useSelector } from 'react-redux';
+import AlertDialog from '../components/AlertDialog';
 
 const DiagnosisPage = () => {
+  const navigate = useNavigate();
+  const [isZero, setIsZero] = useState(false);
+  const turtleItemCount = useSelector(
+    (state: RootState) => state.diagnosis.turtleItem,
+  );
+  const discItemCount = useSelector(
+    (state: RootState) => state.diagnosis.discItem,
+  );
+
+  const handleClick = () => {
+    if (discItemCount === 0 && turtleItemCount === 0) setIsZero(true);
+    else {
+      const isDiscValue = discItemCount >= turtleItemCount;
+      navigate('/matching', {
+        state: {
+          isDisc: isDiscValue,
+        },
+      });
+    }
+  };
+
   return (
     <DiagnosisPageLayout>
+      {isZero ? (
+        <AlertDialog
+          title="의심 증상이 발견되지 않았습니다"
+          description="28일 후 자가진단 테스트 알림을 통해 다시 진단을 시도해주세요"
+          handleAgree={() => {
+            navigate('/report');
+          }}
+          isDialog={isZero}
+          setIsDialog={setIsZero}
+        />
+      ) : null}
       <CenterLayout>
         <TitleContainer>
           <DiagnosisTitle>Self-diagnosis</DiagnosisTitle>
           <SubTitle>문항을 읽고 해당하는 항목을 모두 선택해주세요</SubTitle>
         </TitleContainer>
         <DiagnosisList />
-        <Link to="/matching">
-          <ButtonContainer>
-            <TextButton text="제출하기" color="#5C73DB" />
-          </ButtonContainer>
-        </Link>
+        <ButtonContainer>
+          <TextButton text="제출하기" color="#5C73DB" onClick={handleClick} />
+        </ButtonContainer>
       </CenterLayout>
     </DiagnosisPageLayout>
   );

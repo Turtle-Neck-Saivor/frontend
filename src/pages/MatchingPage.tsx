@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import MatchingTitle from '../components/matching/MatchingTitle';
-import WarningResult from '../components/matching/WarningResult';
+import WarningResult from '../components/matching/DiscResult';
 import MapContainer from '../components/matching/MapContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../stores';
+import TurtleResult from '../components/matching/TurtleResult';
+import DiscResult from '../components/matching/DiscResult';
+import { clearItem } from '../stores/diagnosisSlice';
+import { useLocation } from 'react-router-dom';
 
 const MatchingPage = () => {
+  let { state } = useLocation();
+  if (!state) {
+    state = { isDisc: false };
+  }
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    return () => {
+      dispatch(clearItem);
+    };
+  }, []);
+
   return (
     <MatchingPageLayout>
       <MatchingTitle />
-      <WarningResult />
+      {state.isDisc ? <DiscResult /> : <TurtleResult />}
       <SubTitle>Medical institution</SubTitle>
-      <MapContainer />
+      <MapContainer keyword={state.isDisc ? '목디스크' : '정형외과'} />
     </MatchingPageLayout>
   );
 };
