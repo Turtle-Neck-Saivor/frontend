@@ -24,23 +24,60 @@ const RoutineCalendar = () => {
   useEffect(() => {
     const storedTodos = localStorage.getItem('calendarTodos');
     if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
+      const todosFromStorage = JSON.parse(storedTodos);
+      setTodos(todosFromStorage);
+      const todayString = new Date().toISOString().split('T')[0];
+      const todayTodos = todosFromStorage[todayString];
+
+      if (todayTodos) {
+        dispatch(setSelectedDateTodos(todayTodos));
+      } else {
+        dispatch(
+          setSelectedDateTodos({
+            checkedStates: [false, false, false, false],
+            rate: 0,
+          }),
+        );
+      }
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (value instanceof Date) {
       const dateString = value.toISOString().split('T')[0];
-      setTodos((prev) => ({ ...prev, [dateString]: selectedDateTodos }));
-      localStorage.setItem('calendarTodos', JSON.stringify(todos));
+      dispatch(
+        setSelectedDateTodos(
+          todos[dateString] || {
+            checkedStates: [false, false, false, false],
+            rate: 0,
+          },
+        ),
+      );
     }
-  }, [selectedDateTodos]);
+  }, [todos, value, dispatch]);
+
+  useEffect(() => {
+    if (value instanceof Date) {
+      const dateString = value.toISOString().split('T')[0];
+      setTodos((prev) => {
+        const newTodos = { ...prev, [dateString]: selectedDateTodos };
+        localStorage.setItem('calendarTodos', JSON.stringify(newTodos));
+        return newTodos;
+      });
+    }
+  }, [selectedDateTodos, value]);
 
   const handleDayClick = (date: Date) => {
     const dateString = date.toISOString().split('T')[0]; // 'YYYY-MM-DD' format
+    const storedTodos = localStorage.getItem('calendarTodos');
+    let selectedTodo;
+    if (storedTodos) {
+      const todosFromStorage = JSON.parse(storedTodos);
+      selectedTodo = todosFromStorage[dateString];
+    }
     dispatch(
       setSelectedDateTodos(
-        todos[dateString] || {
+        selectedTodo || {
           checkedStates: [false, false, false, false],
           rate: 0,
         },

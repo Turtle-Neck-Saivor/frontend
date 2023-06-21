@@ -41,14 +41,16 @@ export default StretchingInfo;
 const StretchingInfoLayout = styled.div`
   display: flex;
   justify-content: space-between;
-  flex-grow: 4;
+  flex-grow: 3;
   height: 10rem;
-  margin: 2rem 3rem 2rem 2rem;
+  margin: 1rem 3rem 1rem 2rem;
   border-radius: 0.8rem;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.17);
 `;
 
-const TitleContainer = styled.div``;
+const TitleContainer = styled.div`
+  width: 24rem;
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
