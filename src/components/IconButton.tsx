@@ -8,11 +8,27 @@ interface Props {
   textColor: string;
   icon: SvgIconComponent;
   title: string;
+  fontSize?: string;
+  padding?: string;
+  onClick?: () => void;
 }
 
-const IconButton = ({ bgColor, textColor, icon, title }: Props) => {
+const IconButton = ({
+  bgColor,
+  textColor,
+  icon,
+  title,
+  fontSize,
+  padding,
+  onClick,
+}: Props) => {
   return (
-    <InfoButtonLayout bgColor={bgColor}>
+    <InfoButtonLayout
+      onClick={onClick}
+      bgColor={bgColor}
+      fontSize={fontSize}
+      padding={padding}
+    >
       <SvgIcon component={icon} sx={{ color: `${textColor}` }} />
       <ButtonTitle textColor={textColor}>{title}</ButtonTitle>
     </InfoButtonLayout>
@@ -21,11 +37,18 @@ const IconButton = ({ bgColor, textColor, icon, title }: Props) => {
 
 export default IconButton;
 
-const InfoButtonLayout = styled.button<{ bgColor: string }>`
+const InfoButtonLayout = styled.button<{
+  bgColor: string;
+  fontSize: string;
+  padding: string;
+}>`
   display: flex;
   align-items: center;
   background-color: ${(props) => props.bgColor};
   box-shadow: 1px 2px 5px rgba(20, 14, 62, 0.2);
+  font-size: ${(props) => props.fontSize};
+  height: min-content;
+  padding: ${(props) => props.padding} 0.7rem;
 `;
 
 const ButtonTitle = styled.div<{ textColor: string }>`

@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import StretchingPage from './pages/StretchingPage';
 import DiagnosisPage from './pages/DiagnosisPage';
 import MatchingPage from './pages/MatchingPage';
+import RoutinePage from './pages/RoutinePage';
 
 const routerData: RouterBase[] = [
   {
@@ -74,6 +75,13 @@ const routerData: RouterBase[] = [
     path: '/matching',
     label: 'Matching',
     element: <MatchingPage />,
+    withAuth: true,
+  },
+  {
+    id: 9,
+    path: '/routine',
+    label: 'Routine',
+    element: <RoutinePage />,
     withAuth: true,
   },
 ];
