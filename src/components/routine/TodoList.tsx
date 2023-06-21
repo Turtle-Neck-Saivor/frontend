@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import TodoItem from './TodoItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCheckDateTodos } from '../../stores/routineSlice';
 import { todos } from './todos';
+import { RootState } from '../../stores';
 
 const TodoList = () => {
   const dispatch = useDispatch();
+  const selectedDateTodos = useSelector(
+    (state: RootState) => state.routine.todo,
+  );
 
   const handleCheck = (index) => (e) => {
     dispatch(setCheckDateTodos({ index, checked: e.target.checked }));
@@ -21,6 +25,7 @@ const TodoList = () => {
           linkUrl={todo.linkUrl}
           guideUrl={todo.guideUrl}
           handleCheck={handleCheck(index)}
+          isCheck={selectedDateTodos.checkedStates[index]}
         />
       ))}
     </TodoListLayout>

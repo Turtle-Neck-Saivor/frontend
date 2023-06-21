@@ -9,12 +9,17 @@ interface Props {
   linkUrl: string;
   guideUrl: string;
   handleCheck: (e) => void;
+  isCheck: boolean;
 }
 
-const TodoItem = ({ title, linkUrl, guideUrl, handleCheck }: Props) => {
-  const [isCheck, setCheck] = useState(false);
+const TodoItem = ({
+  title,
+  linkUrl,
+  guideUrl,
+  handleCheck,
+  isCheck,
+}: Props) => {
   const handleChange = (e) => {
-    setCheck(e.target.checked);
     handleCheck(e);
   };
 
