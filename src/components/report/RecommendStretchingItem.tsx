@@ -21,7 +21,12 @@ const RecommendStretchingItem = ({
   return (
     <>
       <StrechingContainer>
-        <StretchingInfo title={title} contents={contents} />
+        <StretchingInfo
+          title={title}
+          contents={contents}
+          linkUrl={linkUrl}
+          guideUrl={guideUrl}
+        />
         <AddRoutine isCheck={isCheck} />
       </StrechingContainer>
     </>

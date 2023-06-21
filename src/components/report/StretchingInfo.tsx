@@ -3,13 +3,19 @@ import styled from 'styled-components';
 import LinkIcon from '@mui/icons-material/Link';
 import IconButton from '../IconButton';
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
+import { Link } from 'react-router-dom';
 
 interface Props {
   title: string;
   contents: string;
+  guideUrl: string;
+  linkUrl: string;
 }
 
-const StretchingInfo = ({ title, contents }: Props) => {
+const StretchingInfo = ({ title, contents, guideUrl, linkUrl }: Props) => {
+  const handleOpenNewTab = (url) => {
+    window.open(url, '_blank', 'noopener, noreferrer');
+  };
   return (
     <StretchingInfoLayout>
       <TitleContainer>
@@ -23,14 +29,17 @@ const StretchingInfo = ({ title, contents }: Props) => {
           icon={LinkIcon}
           title="상세정보"
           padding="0.7rem"
+          onClick={() => handleOpenNewTab(`${linkUrl}`)}
         />
-        <IconButton
-          bgColor="#BAEDBD"
-          textColor="#616161"
-          icon={PhotoCameraFrontIcon}
-          title="가이드라인"
-          padding="0.7rem"
-        />
+        <Link to={`${guideUrl}`}>
+          <IconButton
+            bgColor="#BAEDBD"
+            textColor="#616161"
+            icon={PhotoCameraFrontIcon}
+            title="가이드라인"
+            padding="0.7rem"
+          />
+        </Link>
       </ButtonContainer>
     </StretchingInfoLayout>
   );

@@ -4,12 +4,14 @@ type InitialState = {
   allCount: number;
   redCount: number;
   yellowCount: number;
+  greenCount: number;
 };
 
 const initialState: InitialState = {
   allCount: 0,
   redCount: 0,
   yellowCount: 0,
+  greenCount: 0,
 };
 const logSlice = createSlice({
   name: 'camera',
@@ -27,8 +29,13 @@ const logSlice = createSlice({
       if (action.payload) state.yellowCount = 0;
       else state.yellowCount++;
     },
+    setGreenCount: (state, action) => {
+      if (action.payload) state.greenCount = 0;
+      else state.greenCount++;
+    },
   },
 });
 
 export default logSlice;
-export const { setAllCount, setRedCount, setYellowCount } = logSlice.actions;
+export const { setAllCount, setRedCount, setYellowCount, setGreenCount } =
+  logSlice.actions;
