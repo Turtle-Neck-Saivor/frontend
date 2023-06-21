@@ -8,8 +8,16 @@ interface Props {
   title: string;
   contents: string;
   isCheck: boolean;
+  linkUrl: string;
+  guideUrl: string;
 }
-const RecommendStretchingItem = ({ title, contents, isCheck }: Props) => {
+const RecommendStretchingItem = ({
+  title,
+  contents,
+  isCheck,
+  linkUrl,
+  guideUrl,
+}: Props) => {
   return (
     <>
       <StrechingContainer>

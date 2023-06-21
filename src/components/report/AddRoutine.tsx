@@ -37,9 +37,10 @@ const AddRoutineLayout = styled.div`
   flex-grow: 1;
   width: 3.5rem;
   height: 10rem;
-  margin: 2rem 2rem;
+  margin: 1rem 1rem;
   border-radius: 0.8rem;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.17);
+  cursor: pointer;
 `;
 
 const Explanation = styled.p`

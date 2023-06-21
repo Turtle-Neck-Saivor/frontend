@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__tile--neighbormonth {
+  color: rgb(221, 221, 221) !important;
+}
+
 .react-calendar button {
   margin: 0;
   border: 0;

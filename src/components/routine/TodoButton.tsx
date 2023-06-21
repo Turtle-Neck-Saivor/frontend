@@ -25,7 +25,7 @@ const TodoButton = ({ linkUrl, guideUrl }: Props) => {
         padding="0.3rem"
         onClick={() => handleOpenNewTab(`${linkUrl}`)}
       />
-      <Link to={`/${guideUrl}`}>
+      <Link to={`${guideUrl}`}>
         <IconButton
           bgColor="#BAEDBD"
           textColor="#616161"

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import TodoItem from './TodoItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCheckDateTodos } from '../../stores/routineSlice';
-import { todos } from './todos';
+import { todos } from '../../data/todos';
 import { RootState } from '../../stores';
 
 const TodoList = () => {
