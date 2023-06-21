@@ -2,20 +2,26 @@ import { LinearProgress } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 import Typography from '@mui/material/Typography';
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
 
 const ProgressBar = () => {
+  const selectedDateTodos = useSelector(
+    (state: RootState) => state.routine.todo,
+  );
+
   return (
     <ProgressBarLayout>
       <PercentContainer>
         <Typography variant="body2" color="text.secondary">{`${Math.round(
-          25,
+          selectedDateTodos.rate,
         )}%`}</Typography>
       </PercentContainer>
       <ProgressContainer>
         <LinearProgress
           variant="determinate"
           sx={{ height: 23, borderRadius: 1 }}
-          value={25}
+          value={selectedDateTodos.rate}
         />
       </ProgressContainer>
     </ProgressBarLayout>

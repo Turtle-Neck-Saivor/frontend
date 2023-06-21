@@ -3,6 +3,7 @@ import resultSlice from './resultSlice';
 import cameraSlice from './cameraSlice';
 import logSlice from './logSlice';
 import diagnosisSlice from './diagnosisSlice';
+import routineSlice from './routineSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     camera: cameraSlice.reducer,
     log: logSlice.reducer,
     diagnosis: diagnosisSlice.reducer,
+    routine: routineSlice.reducer,
   },
 });
 

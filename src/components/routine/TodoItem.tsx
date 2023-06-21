@@ -8,19 +8,20 @@ interface Props {
   title: string;
   linkUrl: string;
   guideUrl: string;
+  handleCheck: (e) => void;
 }
 
-const TodoItem = ({ title, linkUrl, guideUrl }: Props) => {
+const TodoItem = ({ title, linkUrl, guideUrl, handleCheck }: Props) => {
   const [isCheck, setCheck] = useState(false);
+  const handleChange = (e) => {
+    setCheck(e.target.checked);
+    handleCheck(e);
+  };
+
   return (
     <TodoItemLayout>
       <CheckBoxContainer>
-        <Checkbox
-          checked={isCheck}
-          onChange={(e) => {
-            setCheck(e.target.checked);
-          }}
-        />
+        <Checkbox checked={isCheck} onChange={handleChange} />
       </CheckBoxContainer>
       <TodoItemBox isCheck={isCheck}>
         <TodoTitle isCheck={isCheck} title={title} />
