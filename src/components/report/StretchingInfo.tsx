@@ -4,12 +4,17 @@ import LinkIcon from '@mui/icons-material/Link';
 import IconButton from '../IconButton';
 import PhotoCameraFrontIcon from '@mui/icons-material/PhotoCameraFront';
 
-const StretchingInfo = () => {
+interface Props {
+  title: string;
+  contents: string;
+}
+
+const StretchingInfo = ({ title, contents }: Props) => {
   return (
     <StretchingInfoLayout>
       <TitleContainer>
-        <Title>맥켄지 운동</Title>
-        <Subtitle>허리 강화 운동</Subtitle>
+        <Title>{title}</Title>
+        <Subtitle>{contents}</Subtitle>
       </TitleContainer>
       <ButtonContainer>
         <IconButton

@@ -1,21 +1,17 @@
 import React from 'react';
-import PageTitle from '../PageTitle';
 import styled from 'styled-components';
-import StretchingInfo from './StretchingInfo';
-import AddRoutine from './AddRoutine';
+import RecommendStretchingItem from './RecommendStretchingItem';
+import PageTitle from '../PageTitle';
 
 const RecommendStretching = () => {
   return (
     <RecommendStrechingLayout>
       <PageTitle title="추천 스트레칭" />
-      <StrechingContainer>
-        <StretchingInfo />
-        <AddRoutine isCheck={false} />
-      </StrechingContainer>
-      <StrechingContainer>
-        <StretchingInfo />
-        <AddRoutine isCheck={true} />
-      </StrechingContainer>
+      <RecommendStretchingItem
+        title="맥켄지운동"
+        contents="허리 강화 운동"
+        isCheck={true}
+      />
     </RecommendStrechingLayout>
   );
 };
@@ -23,10 +19,5 @@ const RecommendStretching = () => {
 export default RecommendStretching;
 
 const RecommendStrechingLayout = styled.div`
-  width: 100%;
-`;
-
-const StrechingContainer = styled.div`
-  display: flex;
   width: 100%;
 `;

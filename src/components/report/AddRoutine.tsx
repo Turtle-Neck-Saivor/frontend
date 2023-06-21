@@ -5,7 +5,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 const AddRoutine = ({ isCheck }: { isCheck: boolean }) => {
-  if (isCheck) {
+  if (!isCheck) {
     return (
       <AddRoutineLayout>
         <SvgIcon

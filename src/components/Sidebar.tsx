@@ -6,6 +6,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SidebarMenu from './SidebarMenu';
 import SidebarInfo from './SidebarInfo';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const Sidebar = () => {
   return (
@@ -14,6 +15,7 @@ const Sidebar = () => {
         <SidebarInfo text="Menu" />
         <SidebarMenu icon={CameraAltIcon} link="camera" text="Camera" />
         <SidebarMenu icon={InsertChartIcon} link="report" text="Report" />
+        <SidebarMenu icon={CalendarTodayIcon} link="routine" text="Calendar" />
         <SidebarInfo text="Others" />
         <SidebarMenu icon={SettingsIcon} link="settings" text="Settings" />
         <SidebarMenu icon={LogoutIcon} text="Logout" />
