@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ChartTitle from './ChartTitle';
 import { ChartLayout } from './ChartLayout.style';
 import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
+import { getWeekGraph } from '../../api/graph';
 
 const WeekBarChart = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [arrayData, setArrayData] = useState<number[]>(new Array(7).fill(0));
+
+  const getWeekData = async () => {
+    setIsLoading(true);
+    const res = await getWeekGraph('nickname1');
+    setArrayData(Object.values(res.data));
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getWeekData();
+  }, []);
+
   const options = {
     responsive: false,
     elements: {
@@ -59,7 +74,7 @@ const WeekBarChart = () => {
           '#aafcde',
           '#fcaac5',
         ],
-        data: [30, 60, 70, 90, 40, 70, 80],
+        data: arrayData,
         barThickness: 10,
       },
     ],
