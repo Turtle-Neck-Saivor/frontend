@@ -19,7 +19,7 @@ const routerData: RouterBase[] = [
     path: '/',
     label: 'Home',
     element: <HomePage />,
-    withAuth: true,
+    withAuth: false,
   },
   {
     id: 1,

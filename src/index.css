@@ -70,3 +70,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.fadeIn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
