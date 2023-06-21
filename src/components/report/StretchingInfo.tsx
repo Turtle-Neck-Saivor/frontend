@@ -17,12 +17,14 @@ const StretchingInfo = () => {
           textColor="white"
           icon={LinkIcon}
           title="상세정보"
+          padding="0.7rem"
         />
         <IconButton
           bgColor="#BAEDBD"
           textColor="#616161"
           icon={PhotoCameraFrontIcon}
           title="가이드라인"
+          padding="0.7rem"
         />
       </ButtonContainer>
     </StretchingInfoLayout>
