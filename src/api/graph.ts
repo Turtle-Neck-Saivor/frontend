@@ -13,7 +13,7 @@ export const getDayGraph = async (nickname: string) => {
     const res = await axios(options);
     return res;
   } catch (error) {
-    throw new Error('API getSearchList error');
+    console.log(error);
   }
 };
 
@@ -29,7 +29,7 @@ export const getWeekGraph = async (nickname: string) => {
     const res = await axios(options);
     return res;
   } catch (error) {
-    throw new Error('API getSearchList error');
+    console.log(error);
   }
 };
 
@@ -43,7 +43,7 @@ export const getMonthGraph = async (nickname: string, date: string) => {
     const res = await axios(options);
     return res;
   } catch (error) {
-    throw new Error('API getSearchList error');
+    console.log(error);
   }
 };
 
@@ -59,6 +59,6 @@ export const getYearGraph = async (nickname: string) => {
     const res = await axios(options);
     return res;
   } catch (error) {
-    throw new Error('API getSearchList error');
+    console.log(error);
   }
 };

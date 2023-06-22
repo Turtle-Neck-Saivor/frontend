@@ -43,14 +43,15 @@ const RegressionChart = ({ data }: { data: DataPoint[] }) => {
   });
 
   useEffect(() => {
-    const regressionLine = ss.linearRegressionLine(
-      ss.linearRegression(data.map((d) => [d.x, d.y])),
-    );
+    const linearRegression = ss.linearRegression(data.map((d) => [d.x, d.y]));
+    const regressionLine = ss.linearRegressionLine(linearRegression);
+
     const newChartData = data.map((point) => ({
       x: point.x,
       y: regressionLine(point.x),
     }));
 
+    let slope = linearRegression.m;
     setChartData((prev) => ({
       datasets: [
         {
@@ -70,14 +71,23 @@ const RegressionChart = ({ data }: { data: DataPoint[] }) => {
       <ChartTitle title="Month" />
       <ChartContainer>
         <Scatter
-          width={910}
+          width={920}
           height={300}
           data={chartData}
           options={{
             responsive: false,
             scales: {
-              x: { type: 'linear' },
-              y: { beginAtZero: true },
+              xAxes: [
+                {
+                  ticks: {
+                    beginAtZero: false,
+                    min: 1,
+                    max: 31,
+                    stepSize: 1,
+                  },
+                },
+              ],
+              yAxes: [{ beginAtZero: true }],
             },
           }}
         />
