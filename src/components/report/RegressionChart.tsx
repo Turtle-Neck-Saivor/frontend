@@ -5,6 +5,9 @@ import { Line, Scatter } from 'react-chartjs-2';
 import * as ss from 'simple-statistics';
 import { ChartLayout } from './ChartLayout.style';
 import ChartTitle from './ChartTitle';
+import { getMonthGraph } from '../../api/graph';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 
 type DataPoint = { x: number; y: number };
 type DataSet = {
@@ -20,7 +23,32 @@ type DataSet = {
 };
 type ChartData = { datasets: DataSet[] };
 
-const RegressionChart = ({ data }: { data: DataPoint[] }) => {
+const RegressionChart = () => {
+  const [data, setData] = useState([]);
+  const selectMonth = useSelector(
+    (state: RootState) => state.graph.selectMonth,
+  );
+
+  const getMonthData = async () => {
+    let dateToSend = new Date();
+    let date = dateToSend.toISOString().split('T')[0];
+    const res = await getMonthGraph('nickname1', date);
+    setData(res.data.infoList);
+  };
+
+  const getSelectMonthData = async () => {
+    const res = await getMonthGraph('nickname1', selectMonth);
+    setData(res.data.infoList);
+  };
+
+  useEffect(() => {
+    getMonthData();
+  }, []);
+
+  useEffect(() => {
+    getSelectMonthData();
+  }, [selectMonth]);
+
   const [chartData, setChartData] = useState<ChartData>({
     datasets: [
       {

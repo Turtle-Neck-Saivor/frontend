@@ -2,16 +2,34 @@ import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import './Calendar.css';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMonth } from '../../stores/graphSlice';
+import { RootState } from '../../stores';
+import { getYearGraph } from '../../api/graph';
+import { monthMap } from '../../data/monthMap';
 
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const ReportCalendar = () => {
+  const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const [value, onChange] = useState<Value>(new Date());
+  const selectMonth = useSelector(
+    (state: RootState) => state.graph.selectMonth,
+  );
+
+  const getYearData = async () => {
+    const res = await getYearGraph('nickname1');
+    const convertedData = [];
+    for (let key in res.data) {
+      convertedData[monthMap[key]] = res.data[key];
+    }
+    console.log(convertedData);
+    setData(convertedData);
+  };
+
   useEffect(() => {
     if (value instanceof Array) {
       value.forEach((date) => {
@@ -43,6 +61,10 @@ const ReportCalendar = () => {
     }
   }, [value]);
 
+  useEffect(() => {
+    getYearData();
+  }, []);
+
   return (
     <CalendarLayout>
       <Calendar
@@ -51,6 +73,9 @@ const ReportCalendar = () => {
         value={value}
         showNavigation={false}
         onChange={onChange}
+        tileClassName={({ date, view }) =>
+          view === 'year' ? `month-${data[date.getMonth() + 1]}` : null
+        }
       />
     </CalendarLayout>
   );

@@ -76,6 +76,7 @@
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
   background-color: #e6e6e6;
+  font-weight: bold;
 }
 
 .react-calendar__tile--hasActive {
@@ -89,14 +90,30 @@
 
 .react-calendar__tile--active {
   background: #e6e6e6;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #ff0000 !important;
 }
 
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
   background: #e3e3e3;
   font-weight: bold;
+  text-decoration: underline;
 }
 
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+.month-Red {
+  background-color: #ff858585 !important;
+}
+
+.month-Green {
+  background-color: #82ff8790 !important;
+}
+
+.month-Yellow {
+  background-color: #fff73590 !important;
 }

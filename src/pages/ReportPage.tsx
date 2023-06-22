@@ -16,29 +16,6 @@ import { useSelector } from 'react-redux';
 const ReportPage = () => {
   const navigate = useNavigate();
   const [isDialog, setIsDialog] = useState(false);
-  const [data, setData] = useState([]);
-  const selectMonth = useSelector(
-    (state: RootState) => state.graph.selectMonth,
-  );
-
-  const getMonthData = async () => {
-    let dateToSend = new Date();
-    let date = dateToSend.toISOString().split('T')[0];
-    const res = await getMonthGraph('nickname1', date);
-    setData(res.data.infoList);
-  };
-
-  const getSelectMonthData = async () => {
-    const res = await getMonthGraph('nickname1', selectMonth);
-    setData(res.data.infoList);
-  };
-  useEffect(() => {
-    getMonthData();
-  }, []);
-
-  useEffect(() => {
-    getSelectMonthData();
-  }, [selectMonth]);
 
   return (
     <ReportPageLayout>
@@ -57,7 +34,7 @@ const ReportPage = () => {
         <DoughnutChart />
         <WeekBarChart />
       </ChartContainer>
-      <RegressionChart data={data} />
+      <RegressionChart />
       <TemperatureLayout>
         <Temperature />
         <ReportCalendar />
