@@ -10,7 +10,12 @@ import useNotification from './useNotification';
 import { add } from '../stores/resultSlice';
 import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
-import { setAllCount, setRedCount, setYellowCount } from '../stores/logSlice';
+import {
+  setAllCount,
+  setGreenCount,
+  setRedCount,
+  setYellowCount,
+} from '../stores/logSlice';
 import useInterval from './useInterval';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
@@ -146,6 +151,8 @@ const useHolistic = ({
       dispach(setAllCount(false));
       if (resulttutrlte.result === 'RED') dispach(setRedCount(false));
       if (resulttutrlte.result === 'YELLOW') dispach(setYellowCount(false));
+      if (resulttutrlte.result === 'GREEN') dispach(setGreenCount(false));
+
       dispach(add(resulttutrlte.y));
     }
   };

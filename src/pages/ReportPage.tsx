@@ -1,39 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DoughnutChart from '../components/report/DoughnutChart';
 import WeekBarChart from '../components/report/WeekBarChart';
 import RegressionChart from '../components/report/RegressionChart';
-import { Button } from '@mui/material';
 import Temperature from '../components/report/Temperature';
 import ReportCalendar from '../components/report/ReportCalendar';
 import RecommendStreching from '../components/report/RecommendStretching';
-import PageTitle from '../components/PageTitle';
 import AlertDialog from '../components/AlertDialog';
 import { useNavigate } from 'react-router-dom';
 import ReportTitle from '../components/report/ReportTitle';
+import { getMonthGraph } from '../api/graph';
+import { RootState } from '../stores';
+import { useSelector } from 'react-redux';
 
 const ReportPage = () => {
   const navigate = useNavigate();
   const [isDialog, setIsDialog] = useState(false);
-  const [data, setData] = useState([
-    { x: 0, y: 6 },
-    { x: 1, y: 3 },
-    { x: 2, y: 7 },
-    { x: 3, y: 2 },
-    { x: 4, y: 8 },
-    { x: 5, y: 3 },
-    { x: 6, y: 9 },
-    { x: 7, y: 2 },
-    { x: 8, y: 8 },
-    { x: 9, y: 3 },
-    { x: 10, y: 9 },
-  ]);
-  const addData = () => {
-    const x = data.length + 1;
-    const y = Math.floor(Math.random() * 10) + 1;
-    const newData = { x, y };
-    setData([...data, newData]);
-  };
+
   return (
     <ReportPageLayout>
       <AlertDialog
@@ -51,8 +34,7 @@ const ReportPage = () => {
         <DoughnutChart />
         <WeekBarChart />
       </ChartContainer>
-      <RegressionChart data={data} />
-      <Button onClick={addData}>데이터 추가</Button>
+      <RegressionChart />
       <TemperatureLayout>
         <Temperature />
         <ReportCalendar />

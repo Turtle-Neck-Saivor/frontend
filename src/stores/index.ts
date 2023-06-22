@@ -4,6 +4,7 @@ import cameraSlice from './cameraSlice';
 import logSlice from './logSlice';
 import diagnosisSlice from './diagnosisSlice';
 import routineSlice from './routineSlice';
+import graphSlice from './graphSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     log: logSlice.reducer,
     diagnosis: diagnosisSlice.reducer,
     routine: routineSlice.reducer,
+    graph: graphSlice.reducer,
   },
 });
 

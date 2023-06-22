@@ -3,4 +3,5 @@ export interface HealthProps {
   redCnt?: number;
   yellowCnt?: number;
   totalCnt?: number;
+  greenCnt?: number;
 }
