@@ -9,13 +9,13 @@ import store from '../stores';
 import { criticalPointRed, criticalPointYellow } from '../stores/resultSlice';
 
 export const checkTurtleNeck = (y: number, k: number): string => {
-  const STANDARD_DEGREE = 50;
-  const radian = (STANDARD_DEGREE * Math.PI) / 180;
-  const m = 9;
-  const n = 1;
+  const RED_STATUS_DEGREE = 50;
+  const YELLOW_STATUS_DEGREE = 15;
+  const redRadian = (RED_STATUS_DEGREE * Math.PI) / 180;
+  const yellowRadian = (YELLOW_STATUS_DEGREE * Math.PI) / 180;
 
-  const criticalPoint2 = Math.sin(radian) * k; // yellow
-  const criticalPoint1 = (k * m + criticalPoint2 * n) / (m + n); // red
+  const criticalPoint2 = Math.sin(redRadian) * k; // yellow
+  const criticalPoint1 = Math.sin(yellowRadian) * k; // red
   store.dispatch(criticalPointRed(criticalPoint1));
   store.dispatch(criticalPointYellow(criticalPoint2));
 

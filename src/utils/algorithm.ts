@@ -1,6 +1,6 @@
 import { DistanceMediapipe } from '../types/mediapipe';
 import { checkTurtleNeck } from './checkTutleNeck';
-import { convertDimension } from './convertDimension';
+import { convertDistanceDimension } from './convertDistanceDimension';
 import { getDistance, getVerticalDistance } from './getDistance';
 
 /**
@@ -15,33 +15,29 @@ import { getDistance, getVerticalDistance } from './getDistance';
  */
 
 export const algorithm = ({
-  standradInput,
   leyebrow,
   reyebrow,
   lshoulder,
+  rshoulder,
   learlob,
+  rearlob,
   shoulderAverage,
   earlobAverage,
 }: DistanceMediapipe) => {
   // TODO: 사용자 입력 값
-  let cmDistance = standradInput;
+  // let cmDistance = standradInput;
 
-  let mediapipeDistance = getDistance(
-    leyebrow.x,
-    leyebrow.y,
-    reyebrow.x,
-    reyebrow.y,
-  );
+  let irisDistance = getDistance(leyebrow,reyebrow);
 
   // 어깨선과 귓볼의 수직 거리 초기 기준값
   let _k = getVerticalDistance(earlobAverage, shoulderAverage); // 80cm
 
   // 사용자가 의식하지 않을 때 어깨선과 귓볼의 수직 거리 (실수)
-  let _y = getVerticalDistance(learlob.y, lshoulder.y);
+  let _y = getVerticalDistance((learlob.y+rearlob.y)/2, (lshoulder.y+rearlob.y)/2);
 
   // cm 단위로 변환
-  const k = convertDimension(_k, cmDistance, mediapipeDistance); // 80cm
-  let y = convertDimension(_y, cmDistance, mediapipeDistance);
+  const k = convertDistanceDimension(irisDistance, _k); // 80cm
+  let y = convertDistanceDimension(irisDistance, _y);
 
   // 결과 반환
   let result = checkTurtleNeck(y, k);

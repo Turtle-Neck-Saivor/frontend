@@ -1,11 +1,12 @@
 import * as h from '@mediapipe/holistic';
 
 export interface DistanceMediapipe {
-  standradInput: number;
   leyebrow: Coordinate;
   reyebrow: Coordinate;
   lshoulder: Coordinate;
+  rshoulder: Coordinate;
   learlob: Coordinate;
+  rearlob: Coordinate;
   shoulderAverage: number;
   earlobAverage: number;
 }

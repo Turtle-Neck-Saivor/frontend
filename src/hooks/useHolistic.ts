@@ -17,14 +17,13 @@ import {
   setYellowCount,
 } from '../stores/logSlice';
 import useInterval from './useInterval';
+import { getDistance } from '../utils/getDistance';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
 const useHolistic = ({
-  eyebrowWidth,
-  videoRef,
+  videoRef
 }: {
-  eyebrowWidth: number;
   videoRef: React.RefObject<Webcam>;
   isDetect: boolean;
 }) => {
@@ -36,11 +35,13 @@ const useHolistic = ({
     return state.camera.isIniting;
   });
   const [isDialog, setIsDialog] = useState(false);
-  const [lshoulderData, setLshoulderData] = useState([0]);
-  const [learlobData, setLearlobData] = useState([0]);
-  const [isInitState, setIsInitState] = useState(false);
+  // const [lshoulderData, setLshoulderData] = useState([0]);
+  // const [learlobData, setLearlobData] = useState([0]);
   const [shoulderAverage, setShoulderAverage] = useState(0);
   const [earlobAverage, setEarlobAverage] = useState(0);
+  const [midPointShoulderData, setMidPointShoulderData] = useState([0]);
+  const [midPointEarlobData, setMidPointEarlobData] = useState([0]);
+  const [isInitState, setIsInitState] = useState(false);
   const { fireNotificationWithTimeout } = useNotification();
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
   const onResults: h.ResultsListener = (results) => {
@@ -122,28 +123,31 @@ const useHolistic = ({
 
     if (faceResult) {
       let learlob = faceResult['132'];
+      let rearlob = faceResult[161];
       let lshoulder = poseResult['11'];
+      let rshoulder = poseResult['12'];
       let leyebrow = poseResult['3'];
       let reyebrow = poseResult['6'];
 
       let resulttutrlte = algorithm({
-        standradInput: eyebrowWidth,
         leyebrow: leyebrow,
         reyebrow: reyebrow,
         lshoulder: lshoulder,
+        rshoulder: rshoulder,
         learlob: learlob,
+        rearlob: rearlob,
         shoulderAverage: shoulderAverage,
         earlobAverage: earlobAverage,
       });
       if (isIniting) {
-        setLshoulderData((cur) => {
+        setMidPointShoulderData((cur) => {
           const temp = [...cur];
-          temp.push(lshoulder.y);
+          temp.push((lshoulder.y + rshoulder.y)/2);
           return temp;
         });
-        setLearlobData((cur) => {
+        setMidPointEarlobData((cur) => {
           const temp = [...cur];
-          temp.push(learlob.y);
+          temp.push((learlob.y+rearlob.y)/2);
           return temp;
         });
       }
@@ -166,20 +170,20 @@ const useHolistic = ({
   }, [resultTurtleNeck]);
 
   useEffect(() => {
-    if (lshoulderData.length === 50) {
+    if (midPointShoulderData.length === 50) {
       store.dispatch(initing(false));
-      const shoulderSum = lshoulderData.reduce(function add(sum, currValue) {
+      const shoulderSum = midPointShoulderData.reduce(function add(sum, currValue) {
         return sum + currValue;
       }, 0);
-      const earlobSum = learlobData.reduce(function add(sum, currValue) {
+      const earlobSum = midPointEarlobData.reduce(function add(sum, currValue) {
         return sum + currValue;
       }, 0);
-      setShoulderAverage(shoulderSum / lshoulderData.length);
-      setEarlobAverage(earlobSum / learlobData.length);
+      setShoulderAverage(shoulderSum / midPointShoulderData.length);
+      setEarlobAverage(earlobSum / midPointEarlobData.length);
       setIsInitState(true);
       store.dispatch(init(true));
     }
-  }, [lshoulderData, learlobData]);
+  }, [midPointShoulderData, midPointEarlobData]);
 
   useEffect(() => {
     let camera: cam.Camera | null = null;
