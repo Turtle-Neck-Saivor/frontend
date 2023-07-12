@@ -21,7 +21,6 @@ const Camera = () => {
 
   const { resultTurtleNeck, canvasRef, isLoading, isDialog, setIsDialog } =
     useHolistic({
-      eyebrowWidth: 8,
       videoRef: videoRef,
       isDetect: isDetect,
     });
