@@ -7,6 +7,7 @@ import { SvgIcon } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedDateTodos } from '../../stores/routineSlice';
 import { RootState } from '../../stores';
+import { SelectedTodo } from '../../types/routine';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SelectedTodo } from '../types/routine';
 
 type InitialState = {
   todo: SelectedTodo;
