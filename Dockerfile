@@ -1,6 +1,6 @@
 FROM node:16.17.0 AS build
 
-ENV $FRONT_HOME=./frontend
+ENV FRONT_HOME=./frontend
 
 WORKDIR /frontend
 
