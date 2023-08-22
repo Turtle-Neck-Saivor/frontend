@@ -1,8 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Holistic, POSE_CONNECTIONS } from '@mediapipe/holistic';
-import * as cam from '@mediapipe/camera_utils';
-import * as h from '@mediapipe/holistic';
-import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
+import type { Camera } from '@mediapipe/camera_utils';
+import {
+  drawConnectors as _drawConnectors,
+  drawLandmarks as _drawLandmarks,
+} from '@mediapipe/drawing_utils';
+import { Camera as _Camera } from '@mediapipe/camera_utils';
+import {
+  Holistic as _Holistic,
+  FACEMESH_LEFT_IRIS as _FACEMESH_LEFT_IRIS,
+  FACEMESH_TESSELATION as _FACEMESH_TESSELATION,
+  POSE_CONNECTIONS as _POSE_CONNECTIONS,
+} from '@mediapipe/holistic';
 import Webcam from 'react-webcam';
 import { algorithm } from '../utils/algorithm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,12 +25,22 @@ import {
   setYellowCount,
 } from '../stores/logSlice';
 import useInterval from './useInterval';
-import { getDistance } from '../utils/getDistance';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
+const Holistic = _Holistic || (window as any).Holistic;
+const FACEMESH_LEFT_IRIS =
+  _FACEMESH_LEFT_IRIS || (window as any).FACEMESH_LEFT_IRIS;
+const FACEMESH_TESSELATION =
+  _FACEMESH_TESSELATION || (window as any).FACEMESH_TESSELATION;
+const POSE_CONNECTIONS = _POSE_CONNECTIONS || (window as any).POSE_CONNECTIONS;
+const drawConnectors = _drawConnectors || (window as any).drawConnectors;
+const drawLandmarks = _drawLandmarks || (window as any).drawLandmarks;
+
+const CameraModule = (window as any).Camera || _Camera;
+let cameraInstance: Camera | null = null;
 const useHolistic = ({
-  videoRef
+  videoRef,
 }: {
   videoRef: React.RefObject<Webcam>;
   isDetect: boolean;
@@ -44,7 +62,7 @@ const useHolistic = ({
   const [isInitState, setIsInitState] = useState(false);
   const { fireNotificationWithTimeout } = useNotification();
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
-  const onResults: h.ResultsListener = (results) => {
+  const onResults = (results) => {
     if (!canvasRef.current || !videoRef.current?.video || !isDetect) {
       return;
     }
@@ -78,7 +96,7 @@ const useHolistic = ({
     );
 
     if (results.faceLandmarks) {
-      for (const point of h.FACEMESH_LEFT_IRIS) {
+      for (const point of FACEMESH_LEFT_IRIS) {
         let point0 = results.faceLandmarks[point[0]];
         if (irisLeftMinX == -1 || point0.x * width < irisLeftMinX) {
           irisLeftMinX = point0.x * width;
@@ -97,11 +115,11 @@ const useHolistic = ({
       color: '#FF0000',
       lineWidth: 2,
     });
-    drawConnectors(canvasCtx, results.faceLandmarks, h.FACEMESH_LEFT_IRIS, {
+    drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_LEFT_IRIS, {
       color: '#30FF30',
       lineWidth: 1,
     });
-    drawConnectors(canvasCtx, results.faceLandmarks, h.FACEMESH_TESSELATION, {
+    drawConnectors(canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION, {
       color: '#C0C0C070',
       lineWidth: 1,
     });
@@ -142,12 +160,12 @@ const useHolistic = ({
       if (isIniting) {
         setMidPointShoulderData((cur) => {
           const temp = [...cur];
-          temp.push((lshoulder.y + rshoulder.y)/2);
+          temp.push((lshoulder.y + rshoulder.y) / 2);
           return temp;
         });
         setMidPointEarlobData((cur) => {
           const temp = [...cur];
-          temp.push((learlob.y+rearlob.y)/2);
+          temp.push((learlob.y + rearlob.y) / 2);
           return temp;
         });
       }
@@ -172,9 +190,13 @@ const useHolistic = ({
   useEffect(() => {
     if (midPointShoulderData.length === 50) {
       store.dispatch(initing(false));
-      const shoulderSum = midPointShoulderData.reduce(function add(sum, currValue) {
+      const shoulderSum = midPointShoulderData.reduce(function add(
+        sum,
+        currValue,
+      ) {
         return sum + currValue;
-      }, 0);
+      },
+      0);
       const earlobSum = midPointEarlobData.reduce(function add(sum, currValue) {
         return sum + currValue;
       }, 0);
@@ -186,31 +208,39 @@ const useHolistic = ({
   }, [midPointShoulderData, midPointEarlobData]);
 
   useEffect(() => {
-    let camera: cam.Camera | null = null;
     let isCanceled = false;
 
-    if (typeof videoRef.current !== 'undefined' && videoRef.current !== null) {
-      if (!videoRef.current?.video) {
-        return;
-      }
+    async function loadCameraModuleAndStart() {
+      if (
+        typeof videoRef.current !== 'undefined' &&
+        videoRef.current !== null
+      ) {
+        if (!videoRef.current?.video) {
+          return;
+        }
 
-      camera = new cam.Camera(videoRef.current?.video, {
-        onFrame: async () => {
-          if (!videoRef.current?.video || isCanceled) {
-            return;
-          }
-          await holistic.send({ image: videoRef.current?.video });
-          setIsLoading(false);
-        },
-      });
-      camera.start();
+        cameraInstance = new CameraModule(videoRef.current?.video, {
+          onFrame: async () => {
+            if (!videoRef.current?.video || isCanceled) {
+              return;
+            }
+            await holistic.send({ image: videoRef.current?.video });
+            setIsLoading(false);
+          },
+        });
+
+        await cameraInstance.start();
+      }
     }
+
+    loadCameraModuleAndStart();
+
     return () => {
       isCanceled = true;
       holistic.onResults(() => undefined);
-      camera?.stop();
+      cameraInstance?.stop();
     };
-  }, []);
+  }, [videoRef]);
 
   useInterval(() => {
     fireNotificationWithTimeout('🐢 스트레칭 알림 🐢', {
