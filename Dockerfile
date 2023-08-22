@@ -16,7 +16,7 @@ FROM nginx:alpine
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY $FRONT_HOME/nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build $FRONT_HOME/dist /usr/share/nginx/html
 
