@@ -2,7 +2,7 @@ FROM node:16.17.0 AS build
 
 ENV FRONT_HOME=./frontend
 
-WORKDIR /frontend
+WORKDIR $FRONT_HOME
 
 COPY $FRONT_HOME/package.json $FRONT_HOME/yarn.lock ./
 
@@ -13,6 +13,10 @@ COPY $FRONT_HOME/. .
 RUN yarn run build
 
 FROM nginx:alpine
+
+ENV FRONT_HOME=./frontend
+
+WORKDIR $FRONT_HOME
 
 RUN rm /etc/nginx/conf.d/default.conf
 
