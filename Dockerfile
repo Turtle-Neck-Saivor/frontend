@@ -20,8 +20,8 @@ WORKDIR $FRONTEND_APP_HOME
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY ./nginx-selfsigned.crt /etc/nginx/ssl/nginx-selfsigned.crt
-COPY ./nginx-selfsigned.key /etc/nginx/ssl/nginx-selfsigned.key
+COPY /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem
+COPY /etc/letsencrypt/live/www.cowabugi.com/privkey.pemy /etc/letsencrypt/live/www.cowabugi.com/privkey.pem
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
