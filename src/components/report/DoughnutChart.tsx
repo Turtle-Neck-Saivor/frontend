@@ -5,6 +5,8 @@ import { Doughnut, defaults } from 'react-chartjs-2';
 import { ChartLayout } from './ChartLayout.style';
 import ChartTitle from './ChartTitle';
 import { getDayGraph } from '../../api/graph';
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
 
 /**
  * Day 도넛 차트
@@ -17,9 +19,10 @@ defaults.global.legend.position = 'bottom';
 const DoughnutChart = () => {
   const [rate, setRate] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
   const getDayRate = async () => {
     setIsLoading(true);
-    const res = await getDayGraph('nickname1');
+    const res = await getDayGraph(nickname);
     setRate(res.data.portion);
     setIsLoading(false);
   };

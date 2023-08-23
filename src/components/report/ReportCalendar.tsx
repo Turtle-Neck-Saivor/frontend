@@ -19,9 +19,10 @@ const ReportCalendar = () => {
   const selectMonth = useSelector(
     (state: RootState) => state.graph.selectMonth,
   );
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const getYearData = async () => {
-    const res = await getYearGraph('nickname1');
+    const res = await getYearGraph(nickname);
     const convertedData = [];
     for (let key in res.data) {
       convertedData[monthMap[key]] = res.data[key];

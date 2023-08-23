@@ -14,25 +14,24 @@ import store from '../stores';
  */
 
 const AuthCheckedLayout = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  // const nickname = useSelector((state: RootState) => state.user.nickname);
   // useEffect(() => {
-  //   if (!localStorage.getItem('token')) {
+  //   if (!localStorage.getItem('nickname')) {
   //     navigate('/login');
   //   }
   // }, [children]);
 
   return (
-    <Provider store={store}>
-      <RootLayout>
-        <Header />
-        <Content>
-          <Sidebar />
-          <Suspense fallback={<Loading />}>
-            <LayoutBody>{children}</LayoutBody>
-          </Suspense>
-        </Content>
-      </RootLayout>
-    </Provider>
+    <RootLayout>
+      <Header />
+      <Content>
+        <Sidebar />
+        <Suspense fallback={<Loading />}>
+          <LayoutBody>{children}</LayoutBody>
+        </Suspense>
+      </Content>
+    </RootLayout>
   );
 };
 

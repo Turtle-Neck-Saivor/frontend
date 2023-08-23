@@ -1,6 +1,8 @@
 import { FormProps } from '../types/user';
 import { BASE_URL } from './constant';
 import axios from 'axios';
+import store from '../stores';
+import { setUser } from '../stores/userSlice';
 
 export const signup = async (args: FormProps) => {
   try {
@@ -15,6 +17,7 @@ export const signup = async (args: FormProps) => {
     };
     const signupRes = await axios(options);
     if (signupRes.data) {
+      localStorage.setItem('nickname', args.nickname);
       return true;
     }
   } catch (e: any) {
@@ -37,6 +40,8 @@ export const login = async (args: FormProps) => {
 
     localStorage.setItem('token', 'accessToken');
     if (loginRes.data) {
+      const nickname = localStorage.getItem('nickname');
+      store.dispatch(setUser(nickname));
       return true;
     }
   } catch (e: any) {

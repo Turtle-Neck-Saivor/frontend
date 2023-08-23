@@ -20,11 +20,12 @@ const IsDetectButton = () => {
   const redCount = useSelector((state: RootState) => state.log.redCount);
   const yellowCount = useSelector((state: RootState) => state.log.yellowCount);
   const greenCount = useSelector((state: RootState) => state.log.greenCount);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const handleClickStop = async () => {
     dispatch(set(false));
     await setHealth({
-      nickname: 'nickname1',
+      nickname: nickname,
       redCnt: redCount,
       totalCnt: allCount,
       yellowCnt: yellowCount,

@@ -4,14 +4,17 @@ import { ChartLayout } from './ChartLayout.style';
 import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
 import { getWeekGraph } from '../../api/graph';
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
 
 const WeekBarChart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [arrayData, setArrayData] = useState<number[]>(new Array(7).fill(0));
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const getWeekData = async () => {
     setIsLoading(true);
-    const res = await getWeekGraph('nickname1');
+    const res = await getWeekGraph(nickname);
     setArrayData(Object.values(res.data));
     setIsLoading(false);
   };

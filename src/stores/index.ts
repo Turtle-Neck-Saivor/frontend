@@ -5,6 +5,7 @@ import logSlice from './logSlice';
 import diagnosisSlice from './diagnosisSlice';
 import routineSlice from './routineSlice';
 import graphSlice from './graphSlice';
+import userSlice from './userSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     diagnosis: diagnosisSlice.reducer,
     routine: routineSlice.reducer,
     graph: graphSlice.reducer,
+    user: userSlice.reducer,
   },
 });
 

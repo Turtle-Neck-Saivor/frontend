@@ -2,13 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/turtle_logo.png';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { RootState } from '../stores';
+import { useSelector } from 'react-redux';
 
 /**
  * 상단 헤더 컴포넌트
  */
 
 const Header = () => {
+  const nickname = useSelector((state: RootState) => state.user.nickname);
+  const navigate = useNavigate();
+
   return (
     <HeaderLayout>
       <Link to="/">
@@ -18,14 +23,22 @@ const Header = () => {
         </LogoContainer>
       </Link>
       <ButtonContainer>
-        <Link to="/login">
-          <Button variant="outlined">Sign-in</Button>
-        </Link>
-        <Link to="/signup">
-          <Button variant="contained" sx={{ ml: 2 }}>
-            Sign-up
-          </Button>
-        </Link>
+        {localStorage.getItem('nickname') ? (
+          <>
+            <Text>{localStorage.getItem('nickname')}</Text>
+          </>
+        ) : (
+          <>
+            <Link to="/login">
+              <Button variant="outlined">Sign-in</Button>
+            </Link>
+            <Link to="/signup">
+              <Button variant="contained" sx={{ ml: 2 }}>
+                Sign-up
+              </Button>
+            </Link>
+          </>
+        )}
       </ButtonContainer>
     </HeaderLayout>
   );
