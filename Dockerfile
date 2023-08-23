@@ -16,6 +16,8 @@ RUN yarn run build
 
 FROM nginx:alpine
 
+ENV FRONTEND_LOCAL_HOME=./frontend
+
 ENV FRONTEND_APP_HOME=/apps
 
 WORKDIR $FRONTEND_APP_HOME
