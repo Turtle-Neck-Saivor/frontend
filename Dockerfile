@@ -26,7 +26,9 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY $FRONTEND_LOCAL_HOME/nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build $FRONTEND_APP_HOME/dist /usr/share/nginx/html
+RUN ls -al
+
+COPY --from=build ./dist /usr/share/nginx/html
 
 EXPOSE 80
 
