@@ -28,20 +28,27 @@ const RegressionChart = () => {
   const selectMonth = useSelector(
     (state: RootState) => state.graph.selectMonth,
   );
-  // const nickname = useSelector((state: RootState) => state.user.nickname);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const getMonthData = async () => {
     let dateToSend = new Date();
     let date = dateToSend.toISOString().split('T')[0];
-    const nickname = localStorage.getItem('nickname');
-    const res = await getMonthGraph(nickname, date);
-    setData(res.data.infoList);
+
+    try {
+      const res = await getMonthGraph(nickname, date);
+      setData(res.data.infoList);
+    } catch (error) {
+      console.error('Error fetching month rate:', error);
+    }
   };
 
   const getSelectMonthData = async () => {
-    const nickname = localStorage.getItem('nickname');
-    const res = await getMonthGraph(nickname, selectMonth);
-    setData(res.data.infoList);
+    try {
+      const res = await getMonthGraph(nickname, selectMonth);
+      setData(res.data.infoList);
+    } catch (error) {
+      console.error('Error fetching select month rate:', error);
+    }
   };
 
   useEffect(() => {

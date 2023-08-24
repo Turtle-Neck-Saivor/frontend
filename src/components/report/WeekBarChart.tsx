@@ -10,13 +10,16 @@ import { useSelector } from 'react-redux';
 const WeekBarChart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [arrayData, setArrayData] = useState<number[]>(new Array(7).fill(0));
-  // const nickname = useSelector((state: RootState) => state.user.nickname);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const getWeekData = async () => {
     setIsLoading(true);
-    const nickname = localStorage.getItem('nickname');
-    const res = await getWeekGraph(nickname);
-    setArrayData(Object.values(res.data));
+    try {
+      const res = await getWeekGraph(nickname);
+      setArrayData(Object.values(res.data));
+    } catch (error) {
+      console.error('Error fetching week rate:', error);
+    }
     setIsLoading(false);
   };
 

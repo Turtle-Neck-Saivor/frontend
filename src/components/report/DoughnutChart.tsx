@@ -19,13 +19,16 @@ defaults.global.legend.position = 'bottom';
 const DoughnutChart = () => {
   const [rate, setRate] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
-  // const nickname = useSelector((state: RootState) => state.user.nickname);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
 
   const getDayRate = async () => {
     setIsLoading(true);
-    const nickname = localStorage.getItem('nickname');
-    const res = await getDayGraph(nickname);
-    setRate(res.data.portion);
+    try {
+      const res = await getDayGraph(nickname);
+      setRate(res.data.portion);
+    } catch (error) {
+      console.error('Error fetching day rate:', error);
+    }
     setIsLoading(false);
   };
 

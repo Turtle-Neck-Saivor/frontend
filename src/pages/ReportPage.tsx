@@ -9,10 +9,20 @@ import RecommendStreching from '../components/report/RecommendStretching';
 import AlertDialog from '../components/AlertDialog';
 import { useNavigate } from 'react-router-dom';
 import ReportTitle from '../components/report/ReportTitle';
+import { setUser } from '../stores/userSlice';
+import { useDispatch } from 'react-redux';
 
 const ReportPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isDialog, setIsDialog] = useState(false);
+
+  useEffect(() => {
+    const nickname = localStorage.getItem('nickname');
+    if (nickname) {
+      dispatch(setUser(nickname));
+    }
+  }, [dispatch]);
 
   return (
     <ReportPageLayout>

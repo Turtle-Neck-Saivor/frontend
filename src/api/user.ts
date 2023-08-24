@@ -38,10 +38,7 @@ export const login = async (args: FormProps) => {
     };
     const loginRes = await axios(options);
 
-    localStorage.setItem('token', 'accessToken');
     if (loginRes.data) {
-      const nickname = localStorage.getItem('nickname');
-      store.dispatch(setUser(nickname));
       return true;
     }
   } catch (e: any) {
