@@ -23,7 +23,8 @@ const Header = () => {
         </LogoContainer>
       </Link>
       <ButtonContainer>
-        {localStorage.getItem('nickname') ? (
+        {localStorage.getItem('nickname') &&
+        localStorage.getItem('nickname') !== '' ? (
           <>
             <Text>{localStorage.getItem('nickname')}</Text>
           </>

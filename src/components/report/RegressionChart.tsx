@@ -28,7 +28,8 @@ const RegressionChart = () => {
   const selectMonth = useSelector(
     (state: RootState) => state.graph.selectMonth,
   );
-  const nickname = useSelector((state: RootState) => state.user.nickname);
+  // const nickname = useSelector((state: RootState) => state.user.nickname);
+  const nickname = localStorage.getItem('nickname');
 
   const getMonthData = async () => {
     let dateToSend = new Date();
