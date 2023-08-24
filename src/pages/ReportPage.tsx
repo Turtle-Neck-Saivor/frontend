@@ -9,9 +9,6 @@ import RecommendStreching from '../components/report/RecommendStretching';
 import AlertDialog from '../components/AlertDialog';
 import { useNavigate } from 'react-router-dom';
 import ReportTitle from '../components/report/ReportTitle';
-import { getMonthGraph } from '../api/graph';
-import { RootState } from '../stores';
-import { useSelector } from 'react-redux';
 
 const ReportPage = () => {
   const navigate = useNavigate();
