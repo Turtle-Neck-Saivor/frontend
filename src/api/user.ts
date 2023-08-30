@@ -1,8 +1,6 @@
 import { FormProps } from '../types/user';
 import { BASE_URL } from './constant';
 import axios from 'axios';
-import store from '../stores';
-import { setUser } from '../stores/userSlice';
 
 export const signup = async (args: FormProps) => {
   try {
@@ -11,6 +9,8 @@ export const signup = async (args: FormProps) => {
       url: `${BASE_URL}/api/v1/members`,
       data: {
         nickname: args.nickname,
+        age: args.age,
+        sex: args.sex,
         emailId: args.emailId,
         password: args.password,
       },
