@@ -6,7 +6,11 @@ const useForm = ({ initialValues, onSubmit }: any) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setValues({ ...values, [name]: value });
+    if (name === 'age') {
+      setValues({ ...values, [name]: parseInt(value, 10) });
+    } else {
+      setValues({ ...values, [name]: value });
+    }
   };
 
   const handleSubmit = (event: React.SyntheticEvent) => {
