@@ -21,6 +21,8 @@ import { init, initing } from '../stores/cameraSlice';
 import useInterval from './useInterval';
 import { addCameraData } from '../stores/logSlice';
 import { Coordinate } from '../types/mediapipe';
+import { calculateAverageCoordinate } from '../utils/calculateAverageCoordinate';
+import { sudoAlgorithm } from '../utils/sudoAlgorithm';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
@@ -58,8 +60,10 @@ const useHolistic = ({
   const nickname = useSelector((state: RootState) => state.user.nickname);
   const [shoulderAverage, setShoulderAverage] = useState(0);
   const [earlobAverage, setEarlobAverage] = useState(0);
-  const [midPointShoulderData, setMidPointShoulderData] = useState([0]);
-  const [midPointEarlobData, setMidPointEarlobData] = useState([0]);
+  const [learlobData, setLearlobData] = useState([]);
+  const [rearlobData, setRearlobData] = useState([]);
+  const [lshoulderData, setLshoulderData] = useState([]);
+  const [rshoulderData, setRshoulderData] = useState([]);
   const [isInitState, setIsInitState] = useState(false);
   const { fireNotificationWithTimeout } = useNotification();
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
@@ -158,19 +162,17 @@ const useHolistic = ({
         shoulderAverage: shoulderAverage,
         earlobAverage: earlobAverage,
       });
-      if (isIniting) {
-        setMidPointShoulderData((cur) => {
-          const temp = [...cur];
-          temp.push((lshoulder.y + rshoulder.y) / 2);
-          return temp;
-        });
-        setMidPointEarlobData((cur) => {
-          const temp = [...cur];
-          temp.push((learlob.y + rearlob.y) / 2);
-          return temp;
-        });
+
+      let distanceFromWebcamInt = Math.floor(Number(distanceFromWebcam));
+
+      if (isIniting && distanceFromWebcamInt === 40) {
+        setLearlobData((cur) => [...cur, learlob]);
+        setRearlobData((cur) => [...cur, rearlob]);
+        setLshoulderData((cur) => [...cur, lshoulder]);
+        setRshoulderData((cur) => [...cur, rshoulder]);
       }
       setResultTurtleNeck(resulttutrlte.result);
+
       if (resulttutrlte.result === 'RED') setRedCount((prev) => prev + 1);
       if (resulttutrlte.result === 'YELLOW') setYellowCount((prev) => prev + 1);
       if (resulttutrlte.result === 'GREEN') setGreenCount((prev) => prev + 1);
@@ -179,32 +181,37 @@ const useHolistic = ({
   };
 
   useEffect(() => {
+    if (
+      learlobData.length === 100 &&
+      rearlobData.length === 100 &&
+      lshoulderData.length === 100 &&
+      rshoulderData.length === 100
+    ) {
+      const averageLeftEarlob = calculateAverageCoordinate(learlobData);
+      const averageRightEarlob = calculateAverageCoordinate(rearlobData);
+      const averageLeftShoulder = calculateAverageCoordinate(lshoulderData);
+      const averageRightShoulder = calculateAverageCoordinate(rshoulderData);
+
+      sudoAlgorithm({
+        averageLeftEarlob,
+        averageRightEarlob,
+        averageLeftShoulder,
+        averageRightShoulder,
+      });
+
+      store.dispatch(initing(false));
+      setIsInitState(true);
+      store.dispatch(init(true));
+    }
+  }, [learlobData, rearlobData, lshoulderData, rshoulderData]);
+
+  useEffect(() => {
     if (resultTurtleNeck === 'RED' || resultTurtleNeck === 'YELLOW') {
       fireNotificationWithTimeout('🔔 거북목 경고 알림', {
         body: '자세를 바르게 해주세요',
       });
     }
   }, [resultTurtleNeck]);
-
-  useEffect(() => {
-    if (midPointShoulderData.length === 50) {
-      store.dispatch(initing(false));
-      const shoulderSum = midPointShoulderData.reduce(function add(
-        sum,
-        currValue,
-      ) {
-        return sum + currValue;
-      },
-      0);
-      const earlobSum = midPointEarlobData.reduce(function add(sum, currValue) {
-        return sum + currValue;
-      }, 0);
-      setShoulderAverage(shoulderSum / midPointShoulderData.length);
-      setEarlobAverage(earlobSum / midPointEarlobData.length);
-      setIsInitState(true);
-      store.dispatch(init(true));
-    }
-  }, [midPointShoulderData, midPointEarlobData]);
 
   useInterval(() => {
     // const avgShoulderAngle = shoulderAngles.reduce((a, b) => a + b, 0) / shoulderAngles.length;
