@@ -2,21 +2,12 @@ import axios, { AxiosError } from 'axios';
 import { HealthProps } from '../types/healthLog';
 import { BASE_URL } from './constant';
 
-export const setHealth = async (args: HealthProps) => {
+export const setHealth = async (dateArray: HealthProps[]) => {
   try {
-    let dateToSend = new Date();
-    let date = dateToSend.toISOString().split('T')[0];
     const options = {
       method: 'POST',
       url: `${BASE_URL}/api/v1/health`,
-      data: {
-        nickname: args.nickname,
-        redCnt: args.redCnt,
-        yellowCnt: args.yellowCnt,
-        totalCnt: args.totalCnt,
-        greenCnt: args.greenCnt,
-        date: date,
-      },
+      data: dateArray,
     };
     const healthRes = await axios(options);
     if (healthRes) {

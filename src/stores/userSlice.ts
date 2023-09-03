@@ -7,6 +7,7 @@ type InitialState = {
 const initialState: InitialState = {
   nickname: '',
 };
+
 const userSlice = createSlice({
   name: 'user',
   initialState,

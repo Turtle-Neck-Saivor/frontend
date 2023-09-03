@@ -5,35 +5,22 @@ import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { set } from '../../stores/cameraSlice';
-import {
-  setAllCount,
-  setRedCount,
-  setYellowCount,
-} from '../../stores/logSlice';
 import { setHealth } from '../../api/healthLog';
+import { resetCameraData } from '../../stores/logSlice';
 
 const IsDetectButton = () => {
   const [isHovering, setIsHovering] = useState(false);
   const dispatch = useDispatch();
   const isDetect = useSelector((state: RootState) => state.camera.isDetect);
-  const allCount = useSelector((state: RootState) => state.log.allCount);
-  const redCount = useSelector((state: RootState) => state.log.redCount);
-  const yellowCount = useSelector((state: RootState) => state.log.yellowCount);
-  const greenCount = useSelector((state: RootState) => state.log.greenCount);
-  const nickname = useSelector((state: RootState) => state.user.nickname);
+  const logData = useSelector((state: RootState) => state.log);
 
   const handleClickStop = async () => {
     dispatch(set(false));
-    await setHealth({
-      nickname: nickname,
-      redCnt: redCount,
-      totalCnt: allCount,
-      yellowCnt: yellowCount,
-      greenCnt: greenCount,
-    });
-    dispatch(setAllCount(true));
-    dispatch(setYellowCount(true));
-    dispatch(setRedCount(true));
+    console.log(logData);
+    const data = await setHealth(logData);
+    if (data) {
+      dispatch(resetCameraData());
+    }
   };
 
   if (isDetect) {

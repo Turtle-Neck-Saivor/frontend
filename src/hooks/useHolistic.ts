@@ -18,13 +18,8 @@ import useNotification from './useNotification';
 import { add } from '../stores/resultSlice';
 import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
-import {
-  setAllCount,
-  setGreenCount,
-  setRedCount,
-  setYellowCount,
-} from '../stores/logSlice';
 import useInterval from './useInterval';
+import { addCameraData } from '../stores/logSlice';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
@@ -48,13 +43,18 @@ const useHolistic = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [resultTurtleNeck, setResultTurtleNeck] = useState('');
-  const dispach = useDispatch();
+  const dispatch = useDispatch();
   const isIniting = useSelector((state: RootState) => {
     return state.camera.isIniting;
   });
   const [isDialog, setIsDialog] = useState(false);
-  // const [lshoulderData, setLshoulderData] = useState([0]);
-  // const [learlobData, setLearlobData] = useState([0]);
+  const [shoulderAngles, setShoulderAngles] = useState<number[]>([]);
+  const [headAngles, setHeadAngles] = useState<number[]>([]);
+  const [neckAngles, setNeckAngles] = useState<number[]>([]);
+  const [redCount, setRedCount] = useState(0);
+  const [yellowCount, setYellowCount] = useState(0);
+  const [greenCount, setGreenCount] = useState(0);
+  const nickname = useSelector((state: RootState) => state.user.nickname);
   const [shoulderAverage, setShoulderAverage] = useState(0);
   const [earlobAverage, setEarlobAverage] = useState(0);
   const [midPointShoulderData, setMidPointShoulderData] = useState([0]);
@@ -170,12 +170,10 @@ const useHolistic = ({
         });
       }
       setResultTurtleNeck(resulttutrlte.result);
-      dispach(setAllCount(false));
-      if (resulttutrlte.result === 'RED') dispach(setRedCount(false));
-      if (resulttutrlte.result === 'YELLOW') dispach(setYellowCount(false));
-      if (resulttutrlte.result === 'GREEN') dispach(setGreenCount(false));
-
-      dispach(add(resulttutrlte.y));
+      if (resulttutrlte.result === 'RED') setRedCount((prev) => prev + 1);
+      if (resulttutrlte.result === 'YELLOW') setYellowCount((prev) => prev + 1);
+      if (resulttutrlte.result === 'GREEN') setGreenCount((prev) => prev + 1);
+      dispatch(add(resulttutrlte.y));
     }
   };
 
@@ -206,6 +204,36 @@ const useHolistic = ({
       store.dispatch(init(true));
     }
   }, [midPointShoulderData, midPointEarlobData]);
+
+  useInterval(() => {
+    // const avgShoulderAngle = shoulderAngles.reduce((a, b) => a + b, 0) / shoulderAngles.length;
+    // const avgHeadAngle = headAngles.reduce((a, b) => a + b, 0) / headAngles.length;
+    // const aveNeckAngle = neckAngles.reduce((a, b) => a + b, 0) / neckAngles.length;
+    dispatch(
+      addCameraData({
+        // nickname: nickname,
+        nickname: 'test',
+        redCount: redCount,
+        yellowCount: yellowCount,
+        greenCount: greenCount,
+        shoulderAngle: 1,
+        headAngle: 1,
+        neckAngle: 1,
+        distanceMonitor: 1,
+        // shoulderAngle: avgShoulderAngle,
+        // headAngle: avgHeadAngle,
+        // neckAngle: aveNeckAngle,
+        // distanceMonitor: distanceFromWebcam,
+      }),
+    );
+
+    // setShoulderAngles([]);
+    // setHeadAngles([]);
+    // setNeckAngles([]);
+    setRedCount(0);
+    setYellowCount(0);
+    setGreenCount(0);
+  }, 10000);
 
   useEffect(() => {
     let isCanceled = false;
@@ -254,7 +282,7 @@ const useHolistic = ({
       holistic.onResults(onResults);
     } else {
       holistic.onResults(() => undefined);
-      dispach(add(0));
+      dispatch(add(0));
     }
   }, [isDetect, isInitState]);
 

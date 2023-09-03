@@ -1,41 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-type InitialState = {
-  allCount: number;
+export type CameraData = {
+  nickname: string;
   redCount: number;
   yellowCount: number;
   greenCount: number;
+  shoulderAngle: number;
+  headAngle: number;
+  neckAngle: number;
+  distanceMonitor: number;
 };
 
-const initialState: InitialState = {
-  allCount: 0,
-  redCount: 0,
-  yellowCount: 0,
-  greenCount: 0,
-};
+const initialState: CameraData[] = [];
+
 const logSlice = createSlice({
-  name: 'camera',
+  name: 'log',
   initialState,
   reducers: {
-    setAllCount: (state, action) => {
-      if (action.payload) state.allCount = 0;
-      else state.allCount++;
+    addCameraData: (state, action: PayloadAction<CameraData>) => {
+      state.push(action.payload);
     },
-    setRedCount: (state, action) => {
-      if (action.payload) state.redCount = 0;
-      else state.redCount++;
-    },
-    setYellowCount: (state, action) => {
-      if (action.payload) state.yellowCount = 0;
-      else state.yellowCount++;
-    },
-    setGreenCount: (state, action) => {
-      if (action.payload) state.greenCount = 0;
-      else state.greenCount++;
+    resetCameraData: () => {
+      return initialState;
     },
   },
 });
 
 export default logSlice;
-export const { setAllCount, setRedCount, setYellowCount, setGreenCount } =
-  logSlice.actions;
+export const { addCameraData, resetCameraData } = logSlice.actions;

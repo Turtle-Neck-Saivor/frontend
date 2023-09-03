@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import InitKButton from '../components/camera/InitKButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import { setAllCount, setRedCount, setYellowCount } from '../stores/logSlice';
+import { resetCameraData } from '../stores/logSlice';
 
 const CameraPage = () => {
   const dispatch = useDispatch();
@@ -19,9 +19,7 @@ const CameraPage = () => {
   });
   useEffect(() => {
     return () => {
-      dispatch(setAllCount(true));
-      dispatch(setYellowCount(true));
-      dispatch(setRedCount(true));
+      dispatch(resetCameraData());
     };
   }, []);
 
