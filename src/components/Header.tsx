@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
   const nickname = useSelector((state: RootState) => state.user.nickname);
-  const navigate = useNavigate();
 
   return (
     <HeaderLayout>
@@ -23,10 +22,9 @@ const Header = () => {
         </LogoContainer>
       </Link>
       <ButtonContainer>
-        {localStorage.getItem('nickname') &&
-        localStorage.getItem('nickname') !== '' ? (
+        {nickname && nickname !== '' ? (
           <>
-            <Text>{localStorage.getItem('nickname')}</Text>
+            <Text>{nickname}</Text>
           </>
         ) : (
           <>

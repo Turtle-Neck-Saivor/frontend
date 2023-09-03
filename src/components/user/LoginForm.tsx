@@ -5,14 +5,18 @@ import Input from './Input';
 import FormButton from './FormButton';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../api/user';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../stores/userSlice';
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { values, handleChange, handleSubmit } = useForm({
     initialValues: { emailId: '', password: '' },
     onSubmit: async () => {
-      const res = await login(values);
-      if (res) {
+      const nickname = await login(values);
+      if (nickname) {
+        dispatch(setUser(nickname));
         navigate('/');
       }
     },

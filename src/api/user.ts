@@ -17,7 +17,6 @@ export const signup = async (args: FormProps) => {
     };
     const signupRes = await axios(options);
     if (signupRes.data) {
-      localStorage.setItem('nickname', args.nickname);
       return true;
     }
   } catch (e: any) {
@@ -39,7 +38,7 @@ export const login = async (args: FormProps) => {
     const loginRes = await axios(options);
 
     if (loginRes.data) {
-      return true;
+      return loginRes.data;
     }
   } catch (e: any) {
     alert('이메일 또는 비밀번호가 일치하지 않습니다.');

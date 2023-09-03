@@ -20,6 +20,7 @@ import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
 import useInterval from './useInterval';
 import { addCameraData } from '../stores/logSlice';
+import { Coordinate } from '../types/mediapipe';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
@@ -211,8 +212,7 @@ const useHolistic = ({
     // const aveNeckAngle = neckAngles.reduce((a, b) => a + b, 0) / neckAngles.length;
     dispatch(
       addCameraData({
-        // nickname: nickname,
-        nickname: 'test',
+        nickname: nickname,
         redCount: redCount,
         yellowCount: yellowCount,
         greenCount: greenCount,
