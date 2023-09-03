@@ -1,5 +1,4 @@
 import { Coordinate } from "../types/mediapipe";
-import { calculateMidPoint } from "./calculatePoint";
 
 /**
  * 어깨선 기울어진 각도 측정
@@ -27,15 +26,11 @@ export const getHeadAngle = (lEarlob: Coordinate, rEarlob: Coordinate): number =
 
 /**
  * 목이 기울진 각도 측정
- * @param {number} lShoulder 왼쪽 어깨 좌표값
- * @param {number} rShoulder 오른쪽 어깨 좌표값
- * @param {number} lEarlob 왼쪽 귓볼 좌표값
- * @param {number} rEarlob 오른쪽 귓볼 좌표값
- * @returns mediapipe로 측정한 각도를 radian 단위로 반환
+ * @param {number} midPointEarlobData 귓볼의 중점 좌표값
+ * @param {number} midPointShoulderData 어깨선의 중점 좌표값
+ * @returns mediapipe로 측정한 값을 cm 길이로 변환
  */
-export const getNeckAngle = (lShoulder: Coordinate, rShoulder: Coordinate, lEarlob: Coordinate, rEarlob: Coordinate): number => {
-    const midPointEarlobData = calculateMidPoint(lEarlob, rEarlob);
-    const midPointShoulderData = calculateMidPoint(lShoulder, rShoulder);
+export const getNeckAngle = (midPointEarlobData: Coordinate, midPointShoulderData: Coordinate): number => {
     const width = Math.abs(midPointEarlobData.x - midPointShoulderData.x);
     const height = Math.abs(midPointEarlobData.y - midPointShoulderData.y);
     return Math.atan(width/height);
