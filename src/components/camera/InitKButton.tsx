@@ -34,7 +34,7 @@ const InitKButton = () => {
                 }}
               >
                 얼굴이 카메라 가운데에 오도록 <br />
-                자세를 잡아주세요
+                자세를 잡고 40cm 거리를 유지해주세요
               </p>
             </React.Fragment>
           }

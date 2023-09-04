@@ -44,7 +44,10 @@ const Camera = () => {
 
           {isIniting ? (
             <InitLayout>
-              <Text>자세 등록중입니다. 바른 자세를 유지해주세요</Text>
+              <Text>
+                자세 등록중입니다. 모니터와 40cm 간격으로 바른 자세를
+                유지해주세요
+              </Text>
             </InitLayout>
           ) : (
             <></>

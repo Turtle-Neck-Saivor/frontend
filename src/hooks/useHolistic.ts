@@ -23,6 +23,13 @@ import { addCameraData } from '../stores/logSlice';
 import { Coordinate } from '../types/mediapipe';
 import { calculateAverageCoordinate } from '../utils/calculateAverageCoordinate';
 import { sudoAlgorithm } from '../utils/sudoAlgorithm';
+import { calculateDistancePosture } from '../utils/calculateDistancePosture';
+import {
+  getHeadAngle,
+  getNeckAngle,
+  getShoulderAngle,
+} from '../utils/getAngle';
+import { checkTurtleNeck } from '../utils/checkTutleNeck';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
@@ -43,23 +50,23 @@ const useHolistic = ({
   videoRef: React.RefObject<Webcam>;
   isDetect: boolean;
 }) => {
+  let lastNotificationTime = null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [resultTurtleNeck, setResultTurtleNeck] = useState('');
   const dispatch = useDispatch();
-  const isIniting = useSelector((state: RootState) => {
-    return state.camera.isIniting;
-  });
   const [isDialog, setIsDialog] = useState(false);
   const [shoulderAngles, setShoulderAngles] = useState<number[]>([]);
   const [headAngles, setHeadAngles] = useState<number[]>([]);
   const [neckAngles, setNeckAngles] = useState<number[]>([]);
+  const [distanceAboutRightPosture, setDistanceAboutRightPosture] = useState<
+    number | null
+  >(null);
+  const [distanceMonitorInts, setDistanceMonitorInts] = useState<number[]>([]);
   const [redCount, setRedCount] = useState(0);
   const [yellowCount, setYellowCount] = useState(0);
   const [greenCount, setGreenCount] = useState(0);
   const nickname = useSelector((state: RootState) => state.user.nickname);
-  const [shoulderAverage, setShoulderAverage] = useState(0);
-  const [earlobAverage, setEarlobAverage] = useState(0);
   const [learlobData, setLearlobData] = useState([]);
   const [rearlobData, setRearlobData] = useState([]);
   const [lshoulderData, setLshoulderData] = useState([]);
@@ -152,36 +159,70 @@ const useHolistic = ({
       let leyebrow = poseResult['3'];
       let reyebrow = poseResult['6'];
 
-      let resulttutrlte = algorithm({
-        leyebrow: leyebrow,
-        reyebrow: reyebrow,
-        lshoulder: lshoulder,
-        rshoulder: rshoulder,
-        learlob: learlob,
-        rearlob: rearlob,
-        shoulderAverage: shoulderAverage,
-        earlobAverage: earlobAverage,
-      });
-
       let distanceFromWebcamInt = Math.floor(Number(distanceFromWebcam));
 
-      if (isIniting && distanceFromWebcamInt === 40) {
+      // 초기 설정 (40cm에서 데이터 모으기)
+      if (!isInitState && distanceFromWebcamInt === 40) {
         setLearlobData((cur) => [...cur, learlob]);
         setRearlobData((cur) => [...cur, rearlob]);
         setLshoulderData((cur) => [...cur, lshoulder]);
         setRshoulderData((cur) => [...cur, rshoulder]);
       }
-      setResultTurtleNeck(resulttutrlte.result);
 
-      if (resulttutrlte.result === 'RED') setRedCount((prev) => prev + 1);
-      if (resulttutrlte.result === 'YELLOW') setYellowCount((prev) => prev + 1);
-      if (resulttutrlte.result === 'GREEN') setGreenCount((prev) => prev + 1);
-      dispatch(add(resulttutrlte.y));
+      // 초기 설정이 완료된 후 (30~50cm에서 데이터 모으기)
+      if (isInitState) {
+        if (distanceFromWebcamInt >= 30 && distanceFromWebcamInt <= 50) {
+          // 데이터를 배열에 저장
+          const newShoulderAngle = getShoulderAngle(lshoulder, rshoulder);
+          const newHeadAngle = getHeadAngle(learlob, rearlob);
+          const newNeckAngle = getNeckAngle(
+            lshoulder,
+            rshoulder,
+            learlob,
+            rearlob,
+          );
+          setShoulderAngles((prev) => [...prev, newShoulderAngle]);
+          setHeadAngles((prev) => [...prev, newHeadAngle]);
+          setNeckAngles((prev) => [...prev, newNeckAngle]);
+          setDistanceMonitorInts((prev) => [...prev, distanceFromWebcamInt]);
+
+          const userDistance = calculateDistancePosture({
+            leftEar: learlob,
+            rightEar: rearlob,
+            leftShoulder: lshoulder,
+            rightShoulder: rshoulder,
+          });
+          dispatch(add(userDistance)); // 실시간 차트 y값으로 전달
+          const resultState = checkTurtleNeck(
+            userDistance,
+            distanceAboutRightPosture,
+          );
+          setResultTurtleNeck(resultState);
+        } else {
+          // 거리가 35~45cm가 아닐 경우 알림 띄우기 (최소 2초간격)
+          const currentTime = new Date().getTime();
+
+          if (
+            lastNotificationTime === null ||
+            currentTime - lastNotificationTime >= 2000
+          ) {
+            fireNotificationWithTimeout('🔔 자세 유지 알림', {
+              body: '모니터와의 거리를 35~45cm 사이로 유지해주세요',
+            });
+            lastNotificationTime = currentTime;
+          }
+        }
+      }
+
+      if (resultTurtleNeck === 'RED') setRedCount((prev) => prev + 1);
+      if (resultTurtleNeck === 'YELLOW') setYellowCount((prev) => prev + 1);
+      if (resultTurtleNeck === 'GREEN') setGreenCount((prev) => prev + 1);
     }
   };
 
   useEffect(() => {
     if (
+      !isInitState &&
       learlobData.length === 100 &&
       rearlobData.length === 100 &&
       lshoulderData.length === 100 &&
@@ -192,13 +233,14 @@ const useHolistic = ({
       const averageLeftShoulder = calculateAverageCoordinate(lshoulderData);
       const averageRightShoulder = calculateAverageCoordinate(rshoulderData);
 
-      sudoAlgorithm({
-        averageLeftEarlob,
-        averageRightEarlob,
-        averageLeftShoulder,
-        averageRightShoulder,
+      const rightDistance = calculateDistancePosture({
+        leftEar: averageLeftEarlob,
+        rightEar: averageRightEarlob,
+        leftShoulder: averageLeftShoulder,
+        rightShoulder: averageRightShoulder,
       });
 
+      setDistanceAboutRightPosture(rightDistance);
       store.dispatch(initing(false));
       setIsInitState(true);
       store.dispatch(init(true));
@@ -214,29 +256,33 @@ const useHolistic = ({
   }, [resultTurtleNeck]);
 
   useInterval(() => {
-    // const avgShoulderAngle = shoulderAngles.reduce((a, b) => a + b, 0) / shoulderAngles.length;
-    // const avgHeadAngle = headAngles.reduce((a, b) => a + b, 0) / headAngles.length;
-    // const aveNeckAngle = neckAngles.reduce((a, b) => a + b, 0) / neckAngles.length;
+    const avgShoulderAngle =
+      shoulderAngles.reduce((a, b) => a + b, 0) / shoulderAngles.length;
+    const avgHeadAngle =
+      headAngles.reduce((a, b) => a + b, 0) / headAngles.length;
+    const aveNeckAngle =
+      neckAngles.reduce((a, b) => a + b, 0) / neckAngles.length;
+    const avgDistanceMonitorInt =
+      distanceMonitorInts.reduce((a, b) => a + b, 0) /
+      distanceMonitorInts.length;
+
     dispatch(
       addCameraData({
         nickname: nickname,
         redCount: redCount,
         yellowCount: yellowCount,
         greenCount: greenCount,
-        shoulderAngle: 1,
-        headAngle: 1,
-        neckAngle: 1,
-        distanceMonitor: 1,
-        // shoulderAngle: avgShoulderAngle,
-        // headAngle: avgHeadAngle,
-        // neckAngle: aveNeckAngle,
-        // distanceMonitor: distanceFromWebcam,
+        shoulderAngle: avgShoulderAngle,
+        headAngle: avgHeadAngle,
+        neckAngle: aveNeckAngle,
+        distanceMonitor: avgDistanceMonitorInt,
       }),
     );
 
-    // setShoulderAngles([]);
-    // setHeadAngles([]);
-    // setNeckAngles([]);
+    setShoulderAngles([]);
+    setHeadAngles([]);
+    setNeckAngles([]);
+    setDistanceMonitorInts([]);
     setRedCount(0);
     setYellowCount(0);
     setGreenCount(0);
