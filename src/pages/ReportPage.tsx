@@ -17,13 +17,6 @@ const ReportPage = () => {
   const dispatch = useDispatch();
   const [isDialog, setIsDialog] = useState(false);
 
-  useEffect(() => {
-    const nickname = localStorage.getItem('nickname');
-    if (nickname) {
-      dispatch(setUser(nickname));
-    }
-  }, [dispatch]);
-
   return (
     <ReportPageLayout>
       <AlertDialog
