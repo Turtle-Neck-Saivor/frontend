@@ -108,7 +108,7 @@ const InitLayout = styled(VideoBox)`
 `;
 
 const Text = styled.h3`
-  margin-top: 3rem;
+  margin-top: 7rem;
   background-color: white;
   width: 62%;
   padding: 0.5rem 1rem;
