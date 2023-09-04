@@ -27,6 +27,7 @@ import {
   getShoulderAngle,
 } from '../utils/getAngle';
 import { checkTurtleNeck } from '../utils/checkTutleNeck';
+import { calculateAverage } from '../utils/calculateAverage';
 
 const STRETCHING_INTERVAL_TIME = 3600000;
 
@@ -253,15 +254,10 @@ const useHolistic = ({
   }, [resultTurtleNeck]);
 
   useInterval(() => {
-    const avgShoulderAngle =
-      shoulderAngles.reduce((a, b) => a + b, 0) / shoulderAngles.length;
-    const avgHeadAngle =
-      headAngles.reduce((a, b) => a + b, 0) / headAngles.length;
-    const aveNeckAngle =
-      neckAngles.reduce((a, b) => a + b, 0) / neckAngles.length;
-    const avgDistanceMonitorInt =
-      distanceMonitorInts.reduce((a, b) => a + b, 0) /
-      distanceMonitorInts.length;
+    const avgShoulderAngle = calculateAverage(shoulderAngles);
+    const avgHeadAngle = calculateAverage(headAngles);
+    const aveNeckAngle = calculateAverage(neckAngles);
+    const avgDistanceMonitorInt = calculateAverage(distanceMonitorInts);
 
     dispatch(
       addCameraData({
