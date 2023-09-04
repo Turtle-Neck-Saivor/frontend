@@ -12,7 +12,6 @@ import {
   POSE_CONNECTIONS as _POSE_CONNECTIONS,
 } from '@mediapipe/holistic';
 import Webcam from 'react-webcam';
-import { algorithm } from '../utils/algorithm';
 import { useDispatch, useSelector } from 'react-redux';
 import useNotification from './useNotification';
 import { add } from '../stores/resultSlice';
@@ -20,9 +19,7 @@ import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
 import useInterval from './useInterval';
 import { addCameraData } from '../stores/logSlice';
-import { Coordinate } from '../types/mediapipe';
 import { calculateAverageCoordinate } from '../utils/calculateAverageCoordinate';
-import { sudoAlgorithm } from '../utils/sudoAlgorithm';
 import { calculateDistancePosture } from '../utils/calculateDistancePosture';
 import {
   getHeadAngle,
