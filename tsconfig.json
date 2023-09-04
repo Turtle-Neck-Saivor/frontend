@@ -18,6 +18,7 @@
     "types": ["kakao.maps.d.ts"]
   },
   "include": ["src"],
+  "exclude": ["path/to/algorithm.ts", "path/to/sudoAlgorithm.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "typeRoots": ["typings/notification.d.ts"]
 }
