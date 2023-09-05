@@ -12,23 +12,23 @@ COPY ./. .
 
 RUN yarn run build
 
-# FROM nginx:alpine
+FROM nginx:alpine
 
-# ENV FRONTEND_APP_HOME=/apps
+ENV FRONTEND_APP_HOME=/apps
 
-# WORKDIR $FRONTEND_APP_HOME
+WORKDIR $FRONTEND_APP_HOME
 
-# RUN rm /etc/nginx/conf.d/default.conf
+RUN rm /etc/nginx/conf.d/default.conf
 
-# COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/fullchain.pem /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem
-# COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/privkey.pem /etc/letsencrypt/live/www.cowabugi.com/privkey.pem
+COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/fullchain.pem /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem
+COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/privkey.pem /etc/letsencrypt/live/www.cowabugi.com/privkey.pem
 
-# COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-# RUN ls -al
+RUN ls -al
 
-# COPY --from=build $FRONTEND_APP_HOME/dist /usr/share/nginx/html
+COPY --from=build $FRONTEND_APP_HOME/dist /usr/share/nginx/html
 
-# EXPOSE 80
+EXPOSE 80
 
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
