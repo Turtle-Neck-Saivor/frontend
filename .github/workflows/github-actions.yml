@@ -29,7 +29,6 @@ jobs:
       - name: Setting .env
         run: |
           echo "${{ secrets.ENV }}" >> .env 
-          cat .env
 
       # docker build & push to production
       - name: Docker build & push to prod
