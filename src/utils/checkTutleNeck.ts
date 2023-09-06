@@ -10,14 +10,12 @@ import { criticalPointRed, criticalPointYellow } from '../stores/resultSlice';
 
 export const checkTurtleNeck = (y: number, k: number): string => {
   const RED_STATUS_DEGREE = 50;
-  // const YELLOW_STATUS_DEGREE = 15;
-  // Change the angle of Yellow-Status based on user experience.
-  const YELLOW_STATUS_DEGREE = 10;
+  const YELLOW_STATUS_DEGREE = 15;
   const redRadian = (RED_STATUS_DEGREE * Math.PI) / 180;
   const yellowRadian = (YELLOW_STATUS_DEGREE * Math.PI) / 180;
 
-  const criticalPoint2 = Math.sin(redRadian) * k; // yellow
-  const criticalPoint1 = Math.sin(yellowRadian) * k; // red
+  const criticalPoint2 = Math.cos(redRadian) * k; // yellow
+  const criticalPoint1 = Math.cos(yellowRadian) * k; // red
   store.dispatch(criticalPointRed(criticalPoint1));
   store.dispatch(criticalPointYellow(criticalPoint2));
 
