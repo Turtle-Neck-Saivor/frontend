@@ -20,8 +20,9 @@ WORKDIR $FRONTEND_APP_HOME
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-# COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/fullchain.pem /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem
-# COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/privkey.pem /etc/letsencrypt/live/www.cowabugi.com/privkey.pem
+# You should consider the access permission of certs file on ec2, if you want to deploy the source code.
+COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/fullchain.pem /etc/letsencrypt/live/www.cowabugi.com/fullchain.pem
+COPY ./ssl_cerfificate/letsencrypt/live/www.cowabugi.com/privkey.pem /etc/letsencrypt/live/www.cowabugi.com/privkey.pem
 
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
