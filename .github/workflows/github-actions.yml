@@ -51,7 +51,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             cd /home/ubuntu/turtle_neck_savior
-            export VITE_KAKAO_MAP_API_KEY=${{ secrets.VITE_KAKAO_MAP_API_KEY }}
             sudo docker-compose down
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/turtle_neck_savior_frontend:latest
             sudo docker-compose up --build -d
