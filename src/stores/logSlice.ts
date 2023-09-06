@@ -1,23 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { HealthProps } from '../types/healthLog';
 
-export type CameraData = {
-  nickname: string;
-  redCount: number;
-  yellowCount: number;
-  greenCount: number;
-  shoulderAngle: number;
-  headAngle: number;
-  neckAngle: number;
-  distanceMonitor: number;
-};
-
-const initialState: CameraData[] = [];
+const initialState: HealthProps[] = [];
 
 const logSlice = createSlice({
   name: 'log',
   initialState,
   reducers: {
-    addCameraData: (state, action: PayloadAction<CameraData>) => {
+    addCameraData: (state, action: PayloadAction<HealthProps>) => {
       state.push(action.payload);
     },
     resetCameraData: () => {

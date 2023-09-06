@@ -195,6 +195,9 @@ const useHolistic = ({
             userDistance,
             distanceAboutRightPosture,
           );
+          if (resultState === 'RED') setRedCount((prev) => prev + 1);
+          if (resultState === 'YELLOW') setYellowCount((prev) => prev + 1);
+          if (resultState === 'GREEN') setGreenCount((prev) => prev + 1);
           setResultTurtleNeck(resultState);
         } else {
           // 거리가 35~45cm가 아닐 경우 알림 띄우기 (최소 2초간격)
@@ -211,10 +214,6 @@ const useHolistic = ({
           }
         }
       }
-
-      if (resultTurtleNeck === 'RED') setRedCount((prev) => prev + 1);
-      if (resultTurtleNeck === 'YELLOW') setYellowCount((prev) => prev + 1);
-      if (resultTurtleNeck === 'GREEN') setGreenCount((prev) => prev + 1);
     }
   };
 
@@ -262,9 +261,9 @@ const useHolistic = ({
     dispatch(
       addCameraData({
         nickname: nickname,
-        redCount: redCount,
-        yellowCount: yellowCount,
-        greenCount: greenCount,
+        redCnt: redCount,
+        yellowCnt: yellowCount,
+        greenCnt: greenCount,
         shoulderAngle: avgShoulderAngle,
         headAngle: avgHeadAngle,
         neckAngle: aveNeckAngle,
