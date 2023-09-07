@@ -169,7 +169,7 @@ const useHolistic = ({
 
       // 초기 설정이 완료된 후 (30~50cm에서 데이터 모으기)
       if (isInitState) {
-        if (distanceFromWebcamInt >= 30 && distanceFromWebcamInt <= 50) {
+        if (distanceFromWebcamInt >= 0 && distanceFromWebcamInt <= 100) {
           // 데이터를 배열에 저장
           const newShoulderAngle = getShoulderAngle(lshoulder, rshoulder);
           const newHeadAngle = getHeadAngle(learlob, rearlob);
