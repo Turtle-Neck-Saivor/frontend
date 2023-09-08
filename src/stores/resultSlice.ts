@@ -4,19 +4,14 @@ type InitialState = {
   resultData: number;
   criticalPointRed: number;
   criticalPointYellow: number;
-  initK: k;
-};
-
-export type k = {
-  learlobY: number;
-  lshoulderY: number;
+  initK: number;
 };
 
 const initialState: InitialState = {
   resultData: 0,
   criticalPointRed: 0,
   criticalPointYellow: 0,
-  initK: { learlobY: 0, lshoulderY: 0 },
+  initK: 1,
 };
 const resultSlice = createSlice({
   name: 'result',
@@ -32,8 +27,7 @@ const resultSlice = createSlice({
       state.criticalPointYellow = action.payload;
     },
     initValue: (state, action) => {
-      state.initK.learlobY = action.payload.learlobY;
-      state.initK.lshoulderY = action.payload.lshoulderY;
+      state.initK = action.payload;
     },
   },
 });

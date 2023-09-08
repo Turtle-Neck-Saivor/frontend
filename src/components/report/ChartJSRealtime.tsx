@@ -44,6 +44,9 @@ const ChartJSRealtime = () => {
   const yellowPoint = useSelector((state: RootState) => {
     return state.result.criticalPointYellow;
   });
+  const K = useSelector((state: RootState) => {
+    return state.result.initK;
+  });
 
   if (redPoint !== 0 && yellowPoint !== 0) {
     return (
@@ -63,7 +66,7 @@ const ChartJSRealtime = () => {
                   mode: 'horizontal',
                   scaleID: 'y-axis-0',
                   value: redPoint,
-                  borderColor: 'orange',
+                  borderColor: 'red',
                   borderWidth: 3,
                 },
                 {
@@ -73,7 +76,7 @@ const ChartJSRealtime = () => {
                   mode: 'horizontal',
                   scaleID: 'y-axis-0',
                   value: yellowPoint,
-                  borderColor: 'red',
+                  borderColor: 'orange',
                   borderWidth: 3,
                 },
               ],
@@ -120,7 +123,7 @@ const ChartJSRealtime = () => {
                   ticks: {
                     beginAtZero: true,
                     min: 0,
-                    max: 1,
+                    max: K,
                     stepSize: 5,
                   },
                 },

@@ -20,7 +20,8 @@ export const signup = async (args: FormProps) => {
       return true;
     }
   } catch (e: any) {
-    alert('이미 가입된 이메일입니다.');
+    alert('Signup Error - console.log 확인');
+    console.log(e);
   }
   return false;
 };
@@ -42,6 +43,7 @@ export const login = async (args: FormProps) => {
     }
   } catch (e: any) {
     alert('이메일 또는 비밀번호가 일치하지 않습니다.');
+    console.log(e);
   }
   return false;
 };

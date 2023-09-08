@@ -14,7 +14,7 @@ import {
 import Webcam from 'react-webcam';
 import { useDispatch, useSelector } from 'react-redux';
 import useNotification from './useNotification';
-import { add } from '../stores/resultSlice';
+import { add, initValue } from '../stores/resultSlice';
 import store, { RootState } from '../stores';
 import { init, initing } from '../stores/cameraSlice';
 import useInterval from './useInterval';
@@ -195,6 +195,7 @@ const useHolistic = ({
             userDistance,
             distanceAboutRightPosture,
           );
+          dispatch(initValue(distanceAboutRightPosture));
           if (resultState === 'RED') setRedCount((prev) => prev + 1);
           if (resultState === 'YELLOW') setYellowCount((prev) => prev + 1);
           if (resultState === 'GREEN') setGreenCount((prev) => prev + 1);
