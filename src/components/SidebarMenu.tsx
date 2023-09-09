@@ -21,12 +21,13 @@ interface SidebarMenuProps {
   icon: SvgIconComponent;
   text: string;
   link?: string;
-  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  handleClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 const SidebarMenu = ({ icon, text, link, handleClick }: SidebarMenuProps) => {
   const location = useLocation();
   const [isSelect, setIsSelect] = useState(false);
+
   useEffect(() => {
     if (location.pathname === `/${link}`) {
       setIsSelect(true);
@@ -34,8 +35,16 @@ const SidebarMenu = ({ icon, text, link, handleClick }: SidebarMenuProps) => {
       setIsSelect(false);
     }
   }, [location.pathname]);
+
+  const onClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (handleClick) {
+      e.preventDefault();
+      handleClick(e as any);
+    }
+  };
+
   return (
-    <Link to={`/${link}`}>
+    <Link to={handleClick ? '#' : `/${link}`} onClick={onClickHandler}>
       <MenuLayout select={isSelect}>
         <SvgIcon component={icon} />
         <Text>{text}</Text>
