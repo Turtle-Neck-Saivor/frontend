@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "@reduxjs/toolkit": "^1.9.5",
+    "@types/redux-persist": "^4.3.1",
     "@types/simple-peer": "^9.11.5",
     "apexcharts": "^3.40.0",
     "chart.js": "^2.9.3",
@@ -35,6 +36,7 @@
     "react-kakao-maps-sdk": "^1.1.9",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
+    "redux-persist": "^6.0.0",
     "simple-statistics": "^7.8.3",
     "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.9"

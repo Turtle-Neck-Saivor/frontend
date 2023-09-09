@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 type InitialState = {
   nickname: string;
@@ -18,5 +20,12 @@ const userSlice = createSlice({
   },
 });
 
-export default userSlice;
+const persistConfig = {
+  key: 'user',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, userSlice.reducer);
+
+export default persistedReducer;
 export const { setUser } = userSlice.actions;

@@ -15,7 +15,7 @@ const store = configureStore({
     diagnosis: diagnosisSlice.reducer,
     routine: routineSlice.reducer,
     graph: graphSlice.reducer,
-    user: userSlice.reducer,
+    user: userSlice,
   },
 });
 

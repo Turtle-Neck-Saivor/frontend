@@ -18,6 +18,7 @@ const CenterLayout = ({ children }: WrapperProps) => {
           justifyContent: 'center',
           minHeight: '80vh',
           flexDirection: 'column',
+          my: 3,
           alginItems: 'center',
         }}
       >
