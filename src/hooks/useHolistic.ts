@@ -167,7 +167,7 @@ const useHolistic = ({
         setRshoulderData((cur) => [...cur, rshoulder]);
       }
 
-      // 초기 설정이 완료된 후 (30~50cm에서 데이터 모으기)
+      // 초기 설정이 완료된 후 (0~100cm에서 데이터 모으기)
       if (isInitState) {
         if (distanceFromWebcamInt >= 0 && distanceFromWebcamInt <= 100) {
           // 데이터를 배열에 저장
@@ -201,7 +201,7 @@ const useHolistic = ({
           if (resultState === 'GREEN') setGreenCount((prev) => prev + 1);
           setResultTurtleNeck(resultState);
         } else {
-          // 거리가 35~45cm가 아닐 경우 알림 띄우기 (최소 2초간격)
+          // 거리가 0~100cm가 아닐 경우 알림 띄우기 (최소 2초간격)
           const currentTime = new Date().getTime();
 
           if (
@@ -209,7 +209,7 @@ const useHolistic = ({
             currentTime - lastNotificationTime >= 2000
           ) {
             fireNotificationWithTimeout('🔔 자세 유지 알림', {
-              body: '모니터와의 거리를 35~45cm 사이로 유지해주세요',
+              body: '모니터와의 거리를 100cm 이내로 유지해주세요',
             });
             lastNotificationTime = currentTime;
           }
@@ -279,7 +279,7 @@ const useHolistic = ({
     setRedCount(0);
     setYellowCount(0);
     setGreenCount(0);
-  }, 10000);
+  }, 2000);
 
   useEffect(() => {
     let isCanceled = false;
